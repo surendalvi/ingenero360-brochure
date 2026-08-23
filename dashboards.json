@@ -1,0 +1,62 @@
+{
+  "furnace": [
+    {
+      "id": "01",
+      "aspect": "01 | Unit Config & Tag Map",
+      "status": "Active Diagram",
+      "description": "Interactive furnace definition showing pass flow geometry, burner locations, and thermocouple layout.",
+      "image": "assets/dashboards/furnace_figure_47.png"
+    },
+    {
+      "id": "02",
+      "aspect": "02 | Plant Data & Trends",
+      "status": "Real-Time Ingestion",
+      "description": "Historian DCS tags ingestion, steady-state framing, and COT baseline deviation analysis.",
+      "image": "assets/dashboards/furnace_figure_54.png"
+    },
+    {
+      "id": "03",
+      "aspect": "03 | AI Model Agent Suite",
+      "status": "Model Executors",
+      "description": "Parallel model execution monitor predicting coking thickness, plugging probability, and thermal flux.",
+      "image": "assets/dashboards/furnace_figure_52.png"
+    },
+    {
+      "id": "04",
+      "aspect": "04 | Operator Action Tables",
+      "status": "Live Recommendations",
+      "description": "Ranked operational decisions matching quantified effects, primary causes, and optimized AI setpoints.",
+      "image": "assets/dashboards/furnace_figure_51.png"
+    }
+  ],
+  "coker": [
+    {
+      "id": "01",
+      "aspect": "01 | Unit Config & Tag Map",
+      "status": "Active Diagram",
+      "description": "Coker train definition, drum pairing geometry, fractionator layouts, and thermocouple tag groupings.",
+      "image": "assets/dashboards/coker_figure_8.png"
+    },
+    {
+      "id": "02",
+      "aspect": "02 | Plant Data & Drum Cycles",
+      "status": "Real-Time Ingestion",
+      "description": "Coke drum cycle tracking, level trends, outage indicators, and temperature tracking parameters.",
+      "image": "assets/dashboards/coker_figure_17.png"
+    },
+    {
+      "id": "03",
+      "aspect": "03 | AI Model Agent Suite",
+      "status": "Model Executors",
+      "description": "Specialized coker agents tracking clean TMT, drum outage, spalling efficiency, and compressor reliability.",
+      "image": "assets/dashboards/coker_figure_18.png"
+    },
+    {
+      "id": "04",
+      "aspect": "04 | Operator Action Tables",
+      "status": "Live Recommendations",
+      "description": "Quantified recommendations for coker operation (spalling timing, overhead line quench flow, and safety baselines).",
+      "image": "assets/dashboards/coker_figure_51.png"
+    }
+  ]
+}
