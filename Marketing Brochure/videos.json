@@ -1,0 +1,156 @@
+[
+  {
+    "filename": "Ammonia_Dashboard.mp4",
+    "title": "Ammonia Dashboard",
+    "category": "Dashboards",
+    "tags": [
+      "Ammonia",
+      "Dashboards"
+    ],
+    "description": "Comprehensive process dashboard for monitoring ammonia plant operation, energy efficiency, and yield analytics.",
+    "localUrl": "videos/Ammonia_Dashboard.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQB20BbasU8KTZRtiiThatMoAaUcTw3AOWye-Z3KxdenZQA?e=kFH2Tc",
+    "hidden": false,
+    "sizeBytes": 80761981,
+    "thumbnailUrl": "thumbnails/Ammonia_Dashboard.jpg",
+    "modifiedAt": "2026-06-17T16:27:02.371Z"
+  },
+  {
+    "filename": "ARM.mp4",
+    "title": "Asset Reliability Management (ARM)",
+    "category": "Dashboards",
+    "tags": [
+      "New"
+    ],
+    "description": "ARM module displays Asset performance, Asset Reliability and Time to Failure Forecast",
+    "localUrl": "videos/ARM.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQD3g38KrwzuToBW91jKrm6nAQeNEWF_GbB3xV2BgqfVNBg?e=FDSlS5",
+    "hidden": false,
+    "sizeBytes": 32568062,
+    "thumbnailUrl": "thumbnails/ARM.jpg",
+    "modifiedAt": "2026-06-17T16:27:17.377Z"
+  },
+  {
+    "filename": "Catofin Agentic AI.mp4",
+    "title": "Catofin Agentic AI",
+    "category": "Agentic AI",
+    "tags": [
+      "Agentic AI",
+      "GenAI"
+    ],
+    "description": "State-of-the-art Agentic AI assistant guiding plant operators through Catofin process diagnostics and operational controls.",
+    "localUrl": "videos/Catofin%20Agentic%20AI.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQARy41MBzNMSqME3StG1wCeAd6GLzDKNVV8u2SMnnK3HUA?e=kcFHUK",
+    "hidden": false,
+    "sizeBytes": 147555797,
+    "thumbnailUrl": "thumbnails/Catofin%20Agentic%20AI.jpg",
+    "modifiedAt": "2026-06-17T16:26:56.819Z"
+  },
+  {
+    "filename": "DCU demo.mp4",
+    "title": "Delayed Coker Unit (DCU)",
+    "category": "Dashboards",
+    "tags": [
+      "DCU",
+      "Process"
+    ],
+    "description": "Delayed Coker Unit (DCU) operation demo highlighting key operational metrics, safety parameters, and operator flows.",
+    "localUrl": "videos/DCU%20demo.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQC85Y7smw9QT4wfvo0yBFU1Aay39t1eHVZGbFnFS12VfLo?e=QY1Los",
+    "hidden": false,
+    "sizeBytes": 53911646,
+    "thumbnailUrl": "thumbnails/DCU%20demo.jpg",
+    "modifiedAt": "2026-06-17T16:27:26.515Z"
+  },
+  {
+    "filename": "Furnace_Optimizer.mp4",
+    "title": "Furnace Optimizer",
+    "category": "Optimizers",
+    "tags": [
+      "New"
+    ],
+    "description": "Demo video for Furnace Optimizer highlighting key operational metrics, Efficiency and Yield",
+    "localUrl": "videos/Furnace_Optimizer.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQCXFSqr_fInTYlJjeHQLdMaAQ2Z7xOEmd2RNpgX2lEKgAI?e=l0QezE",
+    "hidden": false,
+    "sizeBytes": 25204292,
+    "thumbnailUrl": "thumbnails/Furnace_Optimizer.jpg",
+    "modifiedAt": "2026-06-17T16:27:37.097Z"
+  },
+  {
+    "filename": "Generic Outlier Detection.mp4",
+    "title": "Generic Outlier Detection",
+    "category": "Demos",
+    "tags": [
+      "New"
+    ],
+    "description": "Demo video for Generic Outlier Detection.",
+    "localUrl": "videos/Generic%20Outlier%20Detection.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQA13oFBoxY4TJYFvg_km6a2Ad2w1Mt_SNtZeiLwdNkKjag?e=Mw4X0d",
+    "hidden": false,
+    "sizeBytes": 31188890,
+    "thumbnailUrl": "thumbnails/Generic%20Outlier%20Detection.jpg",
+    "modifiedAt": "2026-06-17T16:26:41.278Z"
+  },
+  {
+    "filename": "Ingenero GenAI.mp4",
+    "title": "Ingenero GenAI",
+    "category": "Agentic AI",
+    "tags": [
+      "GenAI",
+      "Agentic AI"
+    ],
+    "description": "Generative AI applications in industrial engineering and design query answering, standard searching, and calculator assistance.",
+    "localUrl": "videos/Ingenero%20GenAI.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQBEflGKBviQQYU-91MllSFwAZ9iv2Zs6BIjvlQZiyYZKMY?e=3jXmYn",
+    "hidden": true,
+    "sizeBytes": 7069758,
+    "thumbnailUrl": "thumbnails/Ingenero%20GenAI.jpg",
+    "modifiedAt": "2026-06-17T16:27:52.074Z"
+  },
+  {
+    "filename": "Methanol Synthesis.mp4",
+    "title": "Methanol Synthesis",
+    "category": "Dashboards",
+    "tags": [
+      "New"
+    ],
+    "description": "Demo video for Methanol highlighting key operational metrics, Efficiency and Yield",
+    "localUrl": "videos/Methanol%20Synthesis.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQAFJ4iTLcqLQo047gltXlPKAVUiVT7AqgdaE5JzsCUPNTo?e=wA6XnS",
+    "hidden": false,
+    "sizeBytes": 21592182,
+    "thumbnailUrl": "thumbnails/Methanol%20Synthesis.jpg",
+    "modifiedAt": "2026-06-17T16:26:57.416Z"
+  },
+  {
+    "filename": "Polymer.mp4",
+    "title": "Polymer",
+    "category": "Dashboards",
+    "tags": [
+      "New"
+    ],
+    "description": "Demo video for Polymer highlighting key operational metrics, Efficiency and Yield.",
+    "localUrl": "videos/Polymer.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQA9snci_94vQrbrbz4eDPVcAcaLL2NQlVxw8SLXySaZh9Q?e=pgc4mI",
+    "hidden": false,
+    "sizeBytes": 290626526,
+    "thumbnailUrl": "thumbnails/Polymer.jpg",
+    "modifiedAt": "2026-06-18T12:26:31.752Z"
+  },
+  {
+    "filename": "Process Control Valve Diagnostic.mp4",
+    "title": "Process Control Valve Diagnostic",
+    "category": "Demos",
+    "tags": [
+      "New"
+    ],
+    "description": "Demo video for Process Control Valve Diagnostic.",
+    "localUrl": "videos/Process%20Control%20Valve%20Diagnostic.mp4",
+    "onlineUrl": "https://ingenero0-my.sharepoint.com/:v:/g/personal/sdalvi_ingenero_com/IQBTIQbfjdvjS4fGBDGTLxqcAaG1w2SWIFKvDhZL9N97jcw?e=glJrTb",
+    "hidden": false,
+    "sizeBytes": 103024730,
+    "thumbnailUrl": "thumbnails/Process%20Control%20Valve%20Diagnostic.jpg",
+    "modifiedAt": "2026-06-18T12:26:10.401Z"
+  }
+]
