@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f0f1a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#84cc16;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#84cc16;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bg)" rx="12"/>
+  
+  <!-- Top bar -->
+  <rect x="0" y="0" width="800" height="56" fill="#16162a" rx="12"/>
+  <rect x="0" y="40" width="800" height="16" fill="#16162a"/>
+  <circle cx="24" cy="28" r="6" fill="#ef4444" opacity="0.8"/>
+  <circle cx="44" cy="28" r="6" fill="#f59e0b" opacity="0.8"/>
+  <circle cx="64" cy="28" r="6" fill="#22c55e" opacity="0.8"/>
+  <text x="100" y="34" fill="#84cc16" font-family="Arial,sans-serif" font-weight="bold" font-size="16">AlgoX</text>
+  <text x="250" y="34" fill="#71717a" font-family="Arial,sans-serif" font-size="12">Script Engine</text>
+  
+  <!-- Separator -->
+  <line x1="0" y1="56" x2="800" y2="56" stroke="#84cc16" stroke-width="2" opacity="0.4"/>
+  
+  <!-- Left sidebar -->
+  <rect x="16" y="72" width="180" height="410" fill="#1e1e36" rx="8" opacity="0.6"/>
+  <rect x="28" y="88" width="156" height="32" fill="#84cc16" rx="6" opacity="0.2"/>
+  <text x="40" y="110" fill="#84cc16" font-family="Arial,sans-serif" font-weight="bold" font-size="11">Dashboard</text>
+  <rect x="28" y="132" width="156" height="28" fill="#2a2a48" rx="6"/>
+  <text x="40" y="150" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="11">Configuration</text>
+  <rect x="28" y="170" width="156" height="28" fill="#2a2a48" rx="6"/>
+  <text x="40" y="188" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="11">Analytics</text>
+  <rect x="28" y="208" width="156" height="28" fill="#2a2a48" rx="6"/>
+  <text x="40" y="226" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="11">Reports</text>
+  <rect x="28" y="246" width="156" height="28" fill="#2a2a48" rx="6"/>
+  <text x="40" y="264" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="11">Alerts</text>
+  
+  <!-- Main content area - KPI cards row -->
+  <rect x="212" y="72" width="140" height="80" fill="#1e1e36" rx="8"/>
+  <text x="228" y="96" fill="#71717a" font-family="Arial,sans-serif" font-size="10">ACTIVE TAGS</text>
+  <text x="228" y="126" fill="#ffffff" font-family="Arial,sans-serif" font-weight="bold" font-size="24">2,847</text>
+  <text x="310" y="126" fill="#22c55e" font-family="Arial,sans-serif" font-size="11">+12%</text>
+  
+  <rect x="366" y="72" width="140" height="80" fill="#1e1e36" rx="8"/>
+  <text x="382" y="96" fill="#71717a" font-family="Arial,sans-serif" font-size="10">MODELS</text>
+  <text x="382" y="126" fill="#ffffff" font-family="Arial,sans-serif" font-weight="bold" font-size="24">24</text>
+  <text x="416" y="126" fill="#84cc16" font-family="Arial,sans-serif" font-size="11">Active</text>
+  
+  <rect x="520" y="72" width="140" height="80" fill="#1e1e36" rx="8"/>
+  <text x="536" y="96" fill="#71717a" font-family="Arial,sans-serif" font-size="10">ALERTS</text>
+  <text x="536" y="126" fill="#ffffff" font-family="Arial,sans-serif" font-weight="bold" font-size="24">3</text>
+  <text x="556" y="126" fill="#f59e0b" font-family="Arial,sans-serif" font-size="11">Pending</text>
+  
+  <rect x="674" y="72" width="110" height="80" fill="#1e1e36" rx="8"/>
+  <text x="690" y="96" fill="#71717a" font-family="Arial,sans-serif" font-size="10">UPTIME</text>
+  <text x="690" y="126" fill="#22c55e" font-family="Arial,sans-serif" font-weight="bold" font-size="24">99.7%</text>
+  
+  <!-- Chart area -->
+  <rect x="212" y="168" width="356" height="200" fill="#1e1e36" rx="8"/>
+  <text x="228" y="192" fill="#e4e4e7" font-family="Arial,sans-serif" font-weight="bold" font-size="13">Custom Python calculation blocks</text>
+  <!-- Chart lines -->
+  <polyline points="232,340 280,310 320,325 360,290 400,280 440,295 480,260 520,270 548,250" fill="none" stroke="#84cc16" stroke-width="2.5" opacity="0.9"/>
+  <polyline points="232,350 280,330 320,340 360,315 400,310 440,320 480,295 520,305 548,285" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.5"/>
+  <!-- Chart grid -->
+  <line x1="232" y1="350" x2="548" y2="350" stroke="#3f3f5e" stroke-width="0.5"/>
+  <line x1="232" y1="310" x2="548" y2="310" stroke="#3f3f5e" stroke-width="0.5"/>
+  <line x1="232" y1="270" x2="548" y2="270" stroke="#3f3f5e" stroke-width="0.5"/>
+  <line x1="232" y1="230" x2="548" y2="230" stroke="#3f3f5e" stroke-width="0.5"/>
+  
+  <!-- Right side panel -->
+  <rect x="582" y="168" width="202" height="200" fill="#1e1e36" rx="8"/>
+  <text x="598" y="192" fill="#e4e4e7" font-family="Arial,sans-serif" font-weight="bold" font-size="12">Live Status</text>
+  <rect x="598" y="204" width="170" height="32" fill="#2a2a48" rx="4"/>
+  <circle cx="614" cy="220" r="5" fill="#22c55e"/>
+  <text x="626" y="224" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="10">Data Pipeline: OK</text>
+  <rect x="598" y="244" width="170" height="32" fill="#2a2a48" rx="4"/>
+  <circle cx="614" cy="260" r="5" fill="#22c55e"/>
+  <text x="626" y="264" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="10">Model Engine: Running</text>
+  <rect x="598" y="284" width="170" height="32" fill="#2a2a48" rx="4"/>
+  <circle cx="614" cy="300" r="5" fill="#84cc16"/>
+  <text x="626" y="304" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="10">Scheduler: Active</text>
+  <rect x="598" y="324" width="170" height="32" fill="#2a2a48" rx="4"/>
+  <circle cx="614" cy="340" r="5" fill="#22c55e"/>
+  <text x="626" y="344" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="10">Historian: Connected</text>
+  
+  <!-- Bottom bar -->
+  <rect x="212" y="384" width="572" height="98" fill="#1e1e36" rx="8"/>
+  <text x="228" y="408" fill="#e4e4e7" font-family="Arial,sans-serif" font-weight="bold" font-size="12">Recent Activity</text>
+  <rect x="228" y="418" width="540" height="22" fill="#2a2a48" rx="4"/>
+  <text x="240" y="433" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="10">10:24 AM — Model recalculation completed successfully</text>
+  <rect x="228" y="446" width="540" height="22" fill="#2a2a48" rx="4"/>
+  <text x="240" y="461" fill="#a1a1aa" font-family="Arial,sans-serif" font-size="10">10:18 AM — New data batch ingested (2,847 tags processed)</text>
+  
+  <!-- Watermark -->
+  <text x="690" y="490" fill="#3f3f5e" font-family="Arial,sans-serif" font-size="10">IngeneroX</text>
+</svg>

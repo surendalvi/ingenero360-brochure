@@ -16,17 +16,80 @@
     },
     {
       "id": "03",
+      "aspect": "BaseX Calculation Engine",
+      "status": "Calculation Agent",
+      "description": "No-code mass and energy balance calculations with drag-and-drop formula builders.",
+      "image": "assets/dashboards/ingenerox_basex.png"
+    },
+    {
+      "id": "04",
+      "aspect": "NotifyX Alert Dispatcher",
+      "status": "Notification Agent",
+      "description": "Email, SMS and DCS alarm notification dispatch with configurable escalation chains.",
+      "image": "assets/dashboards/ingenerox_notifyx.png"
+    },
+    {
+      "id": "05",
       "aspect": "DashX Custom Dashboard",
       "status": "Visualization Agent",
       "description": "Custom drag-and-drop workspace building block panels, KPI widgets, and process control cards.",
       "image": "assets/dashboards/ingenerox_dashx.png"
     },
     {
-      "id": "04",
+      "id": "06",
+      "aspect": "InsightX Diagnostics",
+      "status": "Diagnostics Agent",
+      "description": "Shift audit logs, anomaly detection reports, and process deviation root-cause analysis.",
+      "image": "assets/dashboards/ingenerox_insightx.png"
+    },
+    {
+      "id": "07",
+      "aspect": "OptimaX Yield Optimizer",
+      "status": "Optimization Agent",
+      "description": "Yield and margin optimization engine computing optimal setpoints and economic trade-offs.",
+      "image": "assets/dashboards/ingenerox_optimax.png"
+    },
+    {
+      "id": "08",
       "aspect": "AlertX Rule Designer",
       "status": "Monitoring Agent",
       "description": "Logic builder setting custom multi-variable trigger alerts, skin thermocouple deviation baselines, and notification relays.",
       "image": "assets/dashboards/ingenerox_alertx.png"
+    },
+    {
+      "id": "09",
+      "aspect": "APCperformX Controller Monitor",
+      "status": "APC Monitoring",
+      "description": "Controller performance audit gauges tracking setpoint deviations and valve position variance.",
+      "image": "assets/dashboards/ingenerox_apcperformx.png"
+    },
+    {
+      "id": "10",
+      "aspect": "AnalyticX Predictive Agent",
+      "status": "Predictive Agent",
+      "description": "Remaining useful life forecasting, decoke scheduling predictions, and equipment health scoring.",
+      "image": "assets/dashboards/ingenerox_analyticx.png"
+    },
+    {
+      "id": "11",
+      "aspect": "AlgoX Script Engine",
+      "status": "Custom Calculations",
+      "description": "Python-based custom calculation blocks with drag-and-drop deployment to production.",
+      "image": "assets/dashboards/ingenerox_algox.png"
+    },
+    {
+      "id": "12",
+      "aspect": "HybridX Digital Twin",
+      "status": "Hybrid Modeling",
+      "description": "First-principles plus ML hybrid models for reactor, distillation, and furnace simulations.",
+      "image": "assets/dashboards/ingenerox_hybridx.png"
+    },
+    {
+      "id": "13",
+      "aspect": "PENAI GenAI Assistant",
+      "status": "AI Assistant",
+      "description": "Natural language Q&A agent mapped over operational manuals, DCS history, and plant documentation.",
+      "image": "assets/dashboards/ingenerox_penai.png"
     }
   ],
   "ingenerox360ai": [
@@ -53,13 +116,20 @@
     },
     {
       "id": "04",
-      "aspect": "Methanol360 Monitor",
+      "aspect": "MethanolX360 Monitor",
       "status": "Process Suite",
       "description": "Catalyst aging curves tracker, purge loop efficiency analysis, and heat transfer coefficient calculators.",
       "image": "assets/dashboards/furnace_figure_49.png"
     },
     {
       "id": "05",
+      "aspect": "EnergyX360 (Utility Network)",
+      "status": "Process Suite",
+      "description": "Real-time plant-wide energy and utility network MILP-based optimization for steam, power, and cooling systems.",
+      "image": "assets/dashboards/furnace_figure_50.png"
+    },
+    {
+      "id": "06",
       "aspect": "PolymersX360 Grade Transition",
       "status": "Process Suite",
       "description": "Monomer ratio and purge bin calculations designed to minimize transition offsets and grade transition times.",
