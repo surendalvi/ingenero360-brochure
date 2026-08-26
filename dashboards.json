@@ -1,62 +1,69 @@
 {
-  "furnace": [
+  "ingenerox": [
     {
       "id": "01",
-      "aspect": "01 | Unit Config & Tag Map",
-      "status": "Active Diagram",
-      "description": "Interactive furnace definition showing pass flow geometry, burner locations, and thermocouple layout.",
-      "image": "assets/dashboards/furnace_figure_47.png"
+      "aspect": "DataHubX Tag Mapper",
+      "status": "No-Code Ingestion",
+      "description": "Historian connectivity engine mapping real-time DCS tags, OPC data buffers, and LIMS records.",
+      "image": "assets/dashboards/ingenerox_datahubx.png"
     },
     {
       "id": "02",
-      "aspect": "02 | Plant Data & Trends",
-      "status": "Real-Time Ingestion",
-      "description": "Historian DCS tags ingestion, steady-state framing, and COT baseline deviation analysis.",
-      "image": "assets/dashboards/furnace_figure_54.png"
+      "aspect": "TrendX Timeline Builder",
+      "status": "Visualization Agent",
+      "description": "Configurable multi-variable trends, sensor correlations, and moving average timeline plots.",
+      "image": "assets/dashboards/ingenerox_trendx.png"
     },
     {
       "id": "03",
-      "aspect": "03 | AI Model Agent Suite",
-      "status": "Model Executors",
-      "description": "Parallel model execution monitor predicting coking thickness, plugging probability, and thermal flux.",
-      "image": "assets/dashboards/furnace_figure_52.png"
+      "aspect": "DashX Custom Dashboard",
+      "status": "Visualization Agent",
+      "description": "Custom drag-and-drop workspace building block panels, KPI widgets, and process control cards.",
+      "image": "assets/dashboards/ingenerox_dashx.png"
     },
     {
       "id": "04",
-      "aspect": "04 | Operator Action Tables",
-      "status": "Live Recommendations",
-      "description": "Ranked operational decisions matching quantified effects, primary causes, and optimized AI setpoints.",
-      "image": "assets/dashboards/furnace_figure_51.png"
+      "aspect": "AlertX Rule Designer",
+      "status": "Monitoring Agent",
+      "description": "Logic builder setting custom multi-variable trigger alerts, skin thermocouple deviation baselines, and notification relays.",
+      "image": "assets/dashboards/ingenerox_alertx.png"
     }
   ],
-  "coker": [
+  "ingenerox360ai": [
     {
       "id": "01",
-      "aspect": "01 | Unit Config & Tag Map",
-      "status": "Active Diagram",
-      "description": "Coker train definition, drum pairing geometry, fractionator layouts, and thermocouple tag groupings.",
-      "image": "assets/dashboards/coker_figure_8.png"
+      "aspect": "OlefinsX360 (Furnace)",
+      "status": "Process Suite",
+      "description": "Cracking furnace yield optimization tracking tube metal temperatures, fouling layers, and run length forecasting.",
+      "image": "assets/dashboards/furnace_figure_48.png"
     },
     {
       "id": "02",
-      "aspect": "02 | Plant Data & Drum Cycles",
-      "status": "Real-Time Ingestion",
-      "description": "Coke drum cycle tracking, level trends, outage indicators, and temperature tracking parameters.",
+      "aspect": "COKERX360 (Delayed Coker)",
+      "status": "Process Suite",
+      "description": "Drum cycle tracking, level logs, overhead line fouling indexes, compressor stability, and heater spalling effectiveness.",
       "image": "assets/dashboards/coker_figure_17.png"
     },
     {
       "id": "03",
-      "aspect": "03 | AI Model Agent Suite",
-      "status": "Model Executors",
-      "description": "Specialized coker agents tracking clean TMT, drum outage, spalling efficiency, and compressor reliability.",
+      "aspect": "AmmoniaX360 (Synthesis)",
+      "status": "Process Suite",
+      "description": "Ammonia synthesis loop converter models, loop purge optimizer, and steam-to-carbon ratio recommendation loops.",
       "image": "assets/dashboards/coker_figure_18.png"
     },
     {
       "id": "04",
-      "aspect": "04 | Operator Action Tables",
-      "status": "Live Recommendations",
-      "description": "Quantified recommendations for coker operation (spalling timing, overhead line quench flow, and safety baselines).",
-      "image": "assets/dashboards/coker_figure_51.png"
+      "aspect": "Methanol360 Monitor",
+      "status": "Process Suite",
+      "description": "Catalyst aging curves tracker, purge loop efficiency analysis, and heat transfer coefficient calculators.",
+      "image": "assets/dashboards/furnace_figure_49.png"
+    },
+    {
+      "id": "05",
+      "aspect": "PolymersX360 Grade Transition",
+      "status": "Process Suite",
+      "description": "Monomer ratio and purge bin calculations designed to minimize transition offsets and grade transition times.",
+      "image": "assets/dashboards/furnace_figure_53.png"
     }
   ]
 }
