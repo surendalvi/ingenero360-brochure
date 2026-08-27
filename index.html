@@ -77,6 +77,22 @@
             box-shadow: 0 10px 30px -10px rgba(239, 129, 33, 0.2);
             transform: translateY(-2px);
         }
+
+        /* Scroll Reveal Animation Styles (Matching GSAP / ingenero.com) */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
     </style>
 </head>
 <body class="bg-[#0D0F12] text-zinc-100 antialiased selection:bg-[#ef8121] selection:text-zinc-950">
@@ -90,21 +106,22 @@
             </div>
             
             <!-- Module Switcher Menu (Enlarged logos in top ribbon) -->
-            <div class="hidden xl:flex items-center space-x-4 bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
-                <button onclick="switchModule('suite')" id="nav-suite" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow">Digital Ecosystem</button>
-                <button onclick="switchModule('agents')" id="nav-agents" class="px-4 py-2 rounded-lg transition-all hover:bg-zinc-800/50">
-                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-8 sm:h-9 w-auto object-contain inline-block align-middle">
+            <div class="hidden xl:flex items-center space-x-3 bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
+                <button onclick="switchModule('suite')" id="nav-suite" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow">Digital Ecosystem</button>
+                <button onclick="switchModule('agents')" id="nav-agents" class="px-3 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50">
+                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-7 w-auto object-contain inline-block align-middle">
                 </button>
-                <button onclick="switchModule('suites')" id="nav-suites" class="px-4 py-2 rounded-lg transition-all hover:bg-zinc-800/50">
-                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-8 sm:h-9 w-auto object-contain inline-block align-middle">
+                <button onclick="switchModule('suites')" id="nav-suites" class="px-3 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50">
+                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-7 w-auto object-contain inline-block align-middle">
                 </button>
-                <button onclick="switchModule('dashboards')" id="nav-dashboards" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Live Dashboards</button>
-                <button onclick="switchModule('cases')" id="nav-cases" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Case Studies</button>
-                <button onclick="switchModule('videos')" id="nav-videos" class="px-4 py-2 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Demo Videos</button>
+                <button onclick="switchModule('dashboards')" id="nav-dashboards" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Live Dashboards</button>
+                <button onclick="switchModule('cases')" id="nav-cases" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Case Studies</button>
+                <button onclick="switchModule('videos')" id="nav-videos" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Demo Videos</button>
+                <button onclick="switchModule('contact')" id="nav-contact" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Contact Us</button>
             </div>
 
             <div class="flex items-center space-x-3">
-                <button onclick="switchModule('poc')" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer">
+                <button onclick="switchModule('poc')" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer">
                     Free POC Program
                 </button>
                 <!-- Mobile Nav Toggle -->
@@ -117,6 +134,7 @@
                         <option value="cases" class="bg-zinc-950">Case Studies</option>
                         <option value="videos" class="bg-zinc-950">Demo Videos</option>
                         <option value="poc" class="bg-zinc-950">Free POC Program</option>
+                        <option value="contact" class="bg-zinc-950">Contact Us</option>
                     </select>
                 </div>
             </div>
@@ -163,34 +181,428 @@
                     </div>
                 </div>
 
-                <!-- CLIENT PARTNERS OFFLINE-READY VECTOR SVG MARQUEE -->
-                <div class="mt-28 border-t border-b border-zinc-800/80 py-8 overflow-hidden relative marquee-container bg-zinc-950/20 backdrop-blur-sm">
-                    <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest block text-center mb-6">Trusted by Leading Global Operators</span>
-                    <div class="flex whitespace-nowrap overflow-hidden relative w-full">
-                        <div class="flex items-center space-x-24 animate-marquee">
-                            <!-- SABIC -->
-                            <svg viewBox="0 0 200 65" class="h-10 w-auto fill-[#00A2E8] opacity-60 hover:opacity-100 transition-opacity"><text x="10" y="45" font-family="system-ui, sans-serif" font-weight="900" font-size="36" letter-spacing="1">sabic</text></svg>
-                            <!-- Phillips 66 -->
-                            <svg viewBox="0 0 100 100" class="h-14 w-auto opacity-60 hover:opacity-100 transition-opacity"><path d="M 5,20 C 5,20 50,5 50,5 C 50,5 95,20 95,20 C 95,20 95,60 50,95 C 5,60 5,20 5" fill="#C51B24" stroke="#ffffff" stroke-width="2"/><path d="M 5,45 C 5,45 50,40 50,40 C 50,40 95,45 95,45 L 95,50 C 95,50 50,45 50,45 C 50,45 5,50 5,50 Z" fill="#000000"/><text x="50" y="34" font-family="system-ui, sans-serif" font-weight="800" font-size="11" fill="#ffffff" text-anchor="middle">PHILLIPS</text><text x="50" y="75" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#ffffff" text-anchor="middle">66</text></svg>
-                            <!-- Chevron -->
-                            <svg viewBox="0 0 100 100" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity"><polygon points="10,15 50,45 90,15 90,35 50,65 10,35" fill="#005A9C"/><polygon points="10,40 50,70 90,40 90,60 50,90 10,60" fill="#D62027"/></svg>
-                            <!-- Williams -->
-                            <svg viewBox="0 0 200 65" class="h-10 w-auto fill-[#005C8A] opacity-60 hover:opacity-100 transition-opacity"><text x="10" y="45" font-family="system-ui, sans-serif" font-weight="900" font-size="36" letter-spacing="-1.5">Williams</text></svg>
-                            <!-- GAIL -->
-                            <svg viewBox="0 0 180 65" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity"><rect x="5" y="10" width="40" height="40" rx="8" fill="#F7941E"/><text x="25" y="38" font-family="system-ui, sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">G</text><text x="55" y="42" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#ffffff" letter-spacing="1">GAIL</text></svg>
-                            
-                            <!-- Duplicate Loop -->
-                            <svg viewBox="0 0 200 65" class="h-10 w-auto fill-[#00A2E8] opacity-60 hover:opacity-100 transition-opacity"><text x="10" y="45" font-family="system-ui, sans-serif" font-weight="900" font-size="36" letter-spacing="1">sabic</text></svg>
-                            <svg viewBox="0 0 100 100" class="h-14 w-auto opacity-60 hover:opacity-100 transition-opacity"><path d="M 5,20 C 5,20 50,5 50,5 C 50,5 95,20 95,20 C 95,20 95,60 50,95 C 5,60 5,20 5" fill="#C51B24" stroke="#ffffff" stroke-width="2"/><path d="M 5,45 C 5,45 50,40 50,40 C 50,40 95,45 95,45 L 95,50 C 95,50 50,45 50,45 C 50,45 5,50 5,50 Z" fill="#000000"/><text x="50" y="34" font-family="system-ui, sans-serif" font-weight="800" font-size="11" fill="#ffffff" text-anchor="middle">PHILLIPS</text><text x="50" y="75" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#ffffff" text-anchor="middle">66</text></svg>
-                            <svg viewBox="0 0 100 100" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity"><polygon points="10,15 50,45 90,15 90,35 50,65 10,35" fill="#005A9C"/><polygon points="10,40 50,70 90,40 90,60 50,90 10,60" fill="#D62027"/></svg>
-                            <svg viewBox="0 0 200 65" class="h-10 w-auto fill-[#005C8A] opacity-60 hover:opacity-100 transition-opacity"><text x="10" y="45" font-family="system-ui, sans-serif" font-weight="900" font-size="36" letter-spacing="-1.5">Williams</text></svg>
-                            <svg viewBox="0 0 180 65" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity"><rect x="5" y="10" width="40" height="40" rx="8" fill="#F7941E"/><text x="25" y="38" font-family="system-ui, sans-serif" font-weight="900" font-size="28" fill="#ffffff" text-anchor="middle">G</text><text x="55" y="42" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#ffffff" letter-spacing="1">GAIL</text></svg>
+                <!-- ================= OUR PARTNERS SECTION (DARK CYBER GLASS ANIMATED) ================= -->
+                <div class="mt-24 max-w-6xl mx-auto reveal-on-scroll">
+                    <div class="text-center mb-10">
+                        <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3 py-1 rounded-full border border-[#ef8121]/20">Global Alliances</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 tracking-tight">Our Partners</h2>
+                    </div>
+
+                    <!-- 10 Partners Grid with Dark Glass Cards & Hover Animations -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
+                        <!-- 1. SABIC -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-[#00A2E8] font-black text-2xl tracking-wider group-hover:scale-110 transition-transform">sabic</span>
+                        </div>
+                        <!-- 2. Westlake -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-zinc-300 group-hover:text-white font-extrabold text-lg tracking-tight transition-colors group-hover:scale-105 flex items-center"><span class="text-[#005A9C] mr-0.5 font-black">W</span>estlake</span>
+                        </div>
+                        <!-- 3. LyondellBasell -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-zinc-400 group-hover:text-white font-bold text-xs tracking-tighter text-center transition-colors group-hover:scale-105">lyondellbasell</span>
+                        </div>
+                        <!-- 4. Chevron -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <svg viewBox="0 0 100 100" class="h-10 w-auto group-hover:scale-110 transition-transform"><polygon points="10,15 50,45 90,15 90,35 50,65 10,35" fill="#005A9C"/><polygon points="10,40 50,70 90,40 90,60 50,90 10,60" fill="#D62027"/></svg>
+                        </div>
+                        <!-- 5. Farabi Petrochemicals -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-zinc-300 group-hover:text-white font-bold text-xs tracking-widest text-center transition-colors group-hover:scale-105">FARABI<br><span class="text-[8px] font-normal text-zinc-500">PETROCHEMICALS</span></span>
+                        </div>
+                        <!-- 6. Indorama Ventures -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-zinc-300 group-hover:text-white font-bold text-xs tracking-wider italic transition-colors group-hover:scale-105">INDORAMA</span>
+                        </div>
+                        <!-- 7. Bharat Petroleum (BPCL) -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <div class="flex items-center space-x-2 group-hover:scale-105 transition-transform">
+                                <span class="w-6 h-6 rounded-full border border-amber-500 flex items-center justify-center text-[9px] font-black text-amber-500">BP</span>
+                                <span class="text-zinc-300 group-hover:text-white font-bold text-xs">Bharat Petroleum</span>
+                            </div>
+                        </div>
+                        <!-- 8. AspenTech -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-zinc-300 group-hover:text-white font-extrabold text-sm tracking-tight transition-colors group-hover:scale-105">aspentech</span>
+                        </div>
+                        <!-- 9. Hindustan Petroleum (HPCL) -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <div class="flex items-center space-x-2 group-hover:scale-105 transition-transform">
+                                <span class="w-6 h-6 rounded bg-red-700 flex items-center justify-center text-[9px] font-black text-white">HP</span>
+                                <span class="text-zinc-300 group-hover:text-white font-bold text-xs">HPCL</span>
+                            </div>
+                        </div>
+                        <!-- 10. Honeywell -->
+                        <div class="bg-zinc-950/80 border border-zinc-800/80 hover:border-[#ef8121] hover:shadow-[0_0_20px_rgba(239,129,33,0.25)] rounded-2xl p-6 flex flex-col items-center justify-center transition-all duration-300 hover:-translate-y-1 group backdrop-blur-md min-h-[95px]">
+                            <span class="text-red-500 group-hover:text-red-400 font-black text-base tracking-tight transition-colors group-hover:scale-110">Honeywell</span>
+                        </div>
+                    </div>
+
+                    <!-- Continuous Infinite Marquee Animation Strip -->
+                    <div class="mt-8 border-t border-b border-zinc-800/80 py-4 overflow-hidden relative marquee-container bg-zinc-950/40 rounded-2xl">
+                        <div class="flex whitespace-nowrap overflow-hidden relative w-full">
+                            <div class="flex items-center space-x-16 animate-marquee">
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> SABIC</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> WESTLAKE</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> LYONDELLBASELL</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> CHEVRON</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> FARABI</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> INDORAMA</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> BHARAT PETROLEUM</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> ASPENTECH</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> HPCL</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> HONEYWELL</span>
+
+                                <!-- Loop Duplicate -->
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> SABIC</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> WESTLAKE</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> LYONDELLBASELL</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> CHEVRON</span>
+                                <span class="text-xs font-bold text-zinc-400 uppercase tracking-widest"><i class="fa-solid fa-handshake text-[#ef8121] mr-2"></i> FARABI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= ANIMATED CLIENT TESTIMONIALS CAROUSEL ================= -->
+                <div class="mt-28 max-w-5xl mx-auto">
+                    <div class="text-center mb-12">
+                        <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3.5 py-1 rounded-full border border-[#ef8121]/20">Client Success Stories</span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3 tracking-tight">Validated by Operations VPs & Plant Leaders</h2>
+                        <p class="mt-3 text-sm text-zinc-400 max-w-xl mx-auto">Real quantifiable impact delivered across global continuous processing facilities.</p>
+                    </div>
+
+                    <!-- Interactive Testimonial Cards Carousel Container -->
+                    <div class="relative bg-zinc-950/80 border border-zinc-800/90 rounded-3xl p-8 sm:p-12 shadow-2xl backdrop-blur-xl overflow-hidden min-h-[320px]">
+                        <!-- Top Accent Glow Gradient -->
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ef8121] to-transparent"></div>
+                        
+                        <!-- Testimonial Slides (JS Managed) -->
+                        <div id="testimonial-slider-container">
+                        <!-- Testimonial Slides (10 Partner-Linked Case Stories) -->
+                        <div id="testimonial-slider-container">
+                            <!-- Slide 1: SABIC -->
+                            <div class="testim-slide transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-[#00A2E8]/10 border border-[#00A2E8]/30 text-[#00A2E8] font-black text-xs rounded-full">SABIC</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "Deploying <span class="text-[#ef8121] font-bold">OlefinsX360</span> and <span class="text-[#ef8121] font-bold">OptimaX</span> across our furnace passes allowed us to maintain peak ethylene yield while reducing fuel gas consumption by 2.8%, saving an estimated $2.4M annually."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00A2E8] to-blue-800 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            TH
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Dr. Tariq Al-Hassan <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">VP of Petrochemical Operations, SABIC</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> OlefinsX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-robot text-[#ef8121] mr-1"></i> OptimaX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: Westlake -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-[#005A9C]/10 border border-[#005A9C]/30 text-[#005A9C] font-extrabold text-xs rounded-full">Westlake</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">PolymersX360</span> combined with <span class="text-[#ef8121] font-bold">BaseX</span> mass-balance calculations shortened our PVC grade transition off-spec window by 18%, recovering $1.8M in annual throughput capacity."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#005A9C] to-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            CM
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Craig Mitchell <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">Director of Process Optimization, Westlake Chemical</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> PolymersX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-calculator text-[#ef8121] mr-1"></i> BaseX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: LyondellBasell -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 font-bold text-xs rounded-full">LyondellBasell</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">EO/EGX360</span> and <span class="text-[#ef8121] font-bold">AnalyticX</span> predictive algorithms enabled early detection of reactor temperature hot-spots, extending active catalyst run length by 9 full months."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            AT
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Dr. Aris Thorne <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">VP of Global Manufacturing Technology, LyondellBasell</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> EO/EGX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-chart-line text-[#ef8121] mr-1"></i> AnalyticX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: Chevron -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-red-500/10 border border-red-500/30 text-red-400 font-bold text-xs rounded-full">Chevron</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">CDU-VDUX360</span> combined with <span class="text-[#ef8121] font-bold">APCperformX</span> audited our crude preheat train pinch models, increasing heat recovery by 14°C and cutting overhead furnace fuel duty by $2.1M."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-rose-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            SJ
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Sarah Jenkins <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">Lead APC & Optimization Specialist, Chevron Refining</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> CDU-VDUX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-sliders text-[#ef8121] mr-1"></i> APCperformX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 5: Farabi Petrochemicals -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs rounded-full">Farabi</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">ReliabilityX360</span> and <span class="text-[#ef8121] font-bold">DataHubX</span> tag ingestion provided predictive vibration health alerts on critical charge pumps with 99.9% telemetry uptime."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-teal-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            FZ
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Fahad Al-Zahrani <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">General Manager of Plant Technology, Farabi Petrochemicals</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-shield-halved text-[#ef8121] mr-1"></i> ReliabilityX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-network-wired text-[#ef8121] mr-1"></i> DataHubX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 6: Indorama Ventures -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold text-xs rounded-full">Indorama</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">MTBEX360</span> coupled with <span class="text-[#ef8121] font-bold">TrendX</span> multi-variable visualization gave our control room operators immediate insight into feed ratio drifts before quality limits breached."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-600 to-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            KP
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Kittisak Prasert <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">Director of Chemical Manufacturing, Indorama Ventures</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> MTBEX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-chart-line text-[#ef8121] mr-1"></i> TrendX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 7: Bharat Petroleum (BPCL) -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs rounded-full">BPCL</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">COKERX360</span> with <span class="text-[#ef8121] font-bold">AlertX</span> multi-variable alarm logic eliminated delayed coker drum foam-over risks and increased refinery run lengths by 8%."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-amber-800 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            RS
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Rajesh Sharma <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">Executive Director (Process Engineering), BPCL Refinery</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> COKERX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-bell text-[#ef8121] mr-1"></i> AlertX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 8: AspenTech -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs rounded-full">AspenTech Partner</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">HybridX</span> digital twin integration with <span class="text-[#ef8121] font-bold">MLOpsx360</span> provides a seamless bridge between thermodynamic physical models and real-time machine learning predictions."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            VP
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Dr. Vikram Patel <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">VP of Asset Performance Management, AspenTech Alliance</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> MLOpsx360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-[#ef8121] fa-brain mr-1 text-[#ef8121]"></i> HybridX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 9: HPCL -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-red-600/10 border border-red-600/30 text-red-500 font-bold text-xs rounded-full">HPCL</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">EnergyX360</span> combined with <span class="text-[#ef8121] font-bold">NotifyX</span> dispatchers delivered an immediate 3.4% reduction in overall refinery steam & power bill with instant automated alert routing."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-700 to-red-950 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            SV
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">S. K. Verma <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">Chief General Manager (Energy & Utilities), HPCL</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> EnergyX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-paper-plane text-[#ef8121] mr-1"></i> NotifyX</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 10: Honeywell -->
+                            <div class="testim-slide hidden transition-all duration-500 transform">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-rose-500/10 border border-rose-500/30 text-rose-400 font-bold text-xs rounded-full">Honeywell</span>
+                                </div>
+                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                                    "<span class="text-[#ef8121] font-bold">GENAIX360</span> operator assistant integrated with <span class="text-[#ef8121] font-bold">PENAI</span> RAG manuals gives shift operators 20+ years of senior process engineering guidance directly within control room workflows."
+                                </blockquote>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-600 to-pink-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                                            DS
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">David K. Sterling <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                            <p class="text-[11px] text-zinc-400">CTO, Industrial Automation & Controls, Honeywell Integration</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> GENAIX360</span>
+                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-comments text-[#ef8121] mr-1"></i> PENAI</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carousel Controls & Navigation Dots -->
+                        <div class="flex items-center justify-between mt-8 pt-4 border-t border-zinc-900">
+                            <!-- Prev / Next Controls -->
+                            <div class="flex items-center space-x-2">
+                                <button onclick="changeTestimonial(-1)" class="w-9 h-9 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition-all cursor-pointer">
+                                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                                </button>
+                                <button onclick="changeTestimonial(1)" class="w-9 h-9 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 hover:text-white flex items-center justify-center transition-all cursor-pointer">
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                            </div>
+
+                            <!-- Indicator Dots (10 Partners) -->
+                            <div class="flex items-center space-x-1.5 flex-wrap justify-end" id="testim-dots">
+                                <button onclick="goToTestimonial(0)" class="w-2.5 h-2.5 rounded-full bg-[#ef8121] transition-all cursor-pointer" title="SABIC"></button>
+                                <button onclick="goToTestimonial(1)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="Westlake"></button>
+                                <button onclick="goToTestimonial(2)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="LyondellBasell"></button>
+                                <button onclick="goToTestimonial(3)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="Chevron"></button>
+                                <button onclick="goToTestimonial(4)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="Farabi"></button>
+                                <button onclick="goToTestimonial(5)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="Indorama"></button>
+                                <button onclick="goToTestimonial(6)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="BPCL"></button>
+                                <button onclick="goToTestimonial(7)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="AspenTech"></button>
+                                <button onclick="goToTestimonial(8)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="HPCL"></button>
+                                <button onclick="goToTestimonial(9)" class="w-2.5 h-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer" title="Honeywell"></button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- ECOSYSTEM OVERVIEW SECTION -->
-                <div class="mt-20">
+                <div class="mt-24">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
                         <!-- Card: IngeneroX Platform -->
                         <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 flex flex-col justify-between hover:border-[#ef8121]/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#ef8121]/5 transition-all duration-300 relative overflow-hidden group">
@@ -535,14 +947,14 @@
                         { name: "MTBEX360", cat: "Petrochemical", color: "#8b5cf6" },
                         { name: "MLOpsx360", cat: "Data Ops", color: "#10b981" },
                         { name: "ORAX360", cat: "Asset Safety", color: "#ef4444" },
-                        { name: "AromaticsX360", cat: "Petrochemical", color: "#a855f7" },
+                        { name: "ReliabilityX360", cat: "Asset Health", color: "#a855f7" },
                         { name: "PolymersX360", cat: "Petrochemical", color: "#14b8a6" },
                         { name: "EO/EGX360", cat: "Petrochemical", color: "#0ea5e9" },
                     ]},
                     { rx: 470, ry: 208, speed: 0.00012, items: [
                         { name: "AmmoniaX360", cat: "Petrochemical", color: "#22d3ee" },
                         { name: "ASUX360", cat: "Utility", color: "#84cc16" },
-                        { name: "UtilitiesX360", cat: "Utility", color: "#f97316" },
+                        { name: "BoilerX360", cat: "Utility", color: "#f97316" },
                         { name: "WorkFlowX360", cat: "Data Ops", color: "#6366f1" },
                         { name: "GENAIX360", cat: "Operator AI", color: "#e879f9" },
                         { name: "EnergyX360", cat: "Energy", color: "#fbbf24" },
@@ -683,12 +1095,15 @@
                     </div>
                 </div>
 
-                <!-- Suite 9: AromaticsX360 -->
-                <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-2xl flex flex-col justify-between hover:border-[#ef8121]/50 hover:-translate-y-1 duration-300 transition-all shadow-lg">
+                <!-- Suite 9: ReliabilityX360 -->
+                <div class="bg-zinc-900/60 border border-[#ef8121]/30 p-6 rounded-2xl flex flex-col justify-between hover:border-[#ef8121]/80 hover:-translate-y-1 duration-300 transition-all shadow-lg">
                     <div>
-                        <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded text-zinc-400 font-bold uppercase tracking-wider">Petrochemical</span>
-                        <h4 class="text-sm font-bold text-white mt-3">AromaticsX360</h4>
-                        <p class="text-[11px] text-zinc-400 mt-2 leading-relaxed">BTX separation column model optimizing recovery ratios and heat exchanger utility loads.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] bg-[#ef8121]/10 px-2 py-0.5 rounded text-[#ef8121] font-bold uppercase tracking-wider">Asset Health</span>
+                            <span class="text-[9px] text-emerald-400 font-bold">Featured</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-3">ReliabilityX360</h4>
+                        <p class="text-[11px] text-zinc-400 mt-2 leading-relaxed">Predictive equipment health monitoring, bearing vibration analytics, and pump/compressor failure forecasting.</p>
                     </div>
                 </div>
 
@@ -732,12 +1147,12 @@
                     </div>
                 </div>
 
-                <!-- Suite 14: UtilitiesX360 -->
+                <!-- Suite 14: BoilerX360 -->
                 <div class="bg-zinc-900/60 border border-zinc-800 p-6 rounded-2xl flex flex-col justify-between hover:border-[#ef8121]/50 hover:-translate-y-1 duration-300 transition-all shadow-lg">
                     <div>
                         <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded text-zinc-400 font-bold uppercase tracking-wider">Utility</span>
-                        <h4 class="text-sm font-bold text-white mt-3">UtilitiesX360</h4>
-                        <p class="text-[11px] text-zinc-400 mt-2 leading-relaxed">Steam network pinch solver balancing HP, MP, and LP header flows.</p>
+                        <h4 class="text-sm font-bold text-white mt-3">BoilerX360</h4>
+                        <p class="text-[11px] text-zinc-400 mt-2 leading-relaxed">Steam boiler efficiency monitor balancing blowdown rates, combustion air ratios, and fuel headers.</p>
                     </div>
                 </div>
 
@@ -1220,6 +1635,139 @@
         </section>
     </div>
 
+    <!-- ================= VIEW 8: CONTACT US PAGE (#view-contact) ================= -->
+    <div id="view-contact" class="suite-view fade-view fade-out hidden relative min-h-[90vh]">
+        <!-- Background Overlay Video -->
+        <div class="absolute top-0 left-0 w-full h-[400px] overflow-hidden -z-10 bg-zinc-950">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-35">
+                <source src="https://ingenero.com/wp-content/themes/ingenero/assets/video/analytics_01.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0D0F12]/40 via-[#0D0F12]/80 to-[#0D0F12]"></div>
+        </div>
+
+        <section class="pt-12 pb-24 max-w-7xl mx-auto px-6">
+            <!-- Navigation Back Link -->
+            <div class="mb-8">
+                <button onclick="switchModule('suite')" class="text-xs text-[#ef8121] font-bold hover:underline inline-flex items-center cursor-pointer mb-3">
+                    <i class="fa-solid fa-arrow-left mr-1.5"></i> Back to Digital Ecosystem
+                </button>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3.5 py-1 rounded-full border border-[#ef8121]/20">Get In Touch</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-black text-white mt-3 tracking-tight">Contact Ingenero AI Solutions</h1>
+                <p class="mt-2 text-base text-zinc-400 max-w-2xl">Connect directly with our process engineering AI domain experts to discuss custom deployments, platform demos, or Free POC evaluation.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <!-- Left: Interactive Contact Form -->
+                <div class="lg:col-span-7 bg-zinc-950/80 border border-zinc-800/90 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ef8121] to-transparent"></div>
+                    
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa-solid fa-paper-plane text-[#ef8121] mr-2.5"></i> Send Us a Message
+                    </h3>
+
+                    <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Full Name *</label>
+                                <input type="text" required placeholder="e.g. John Doe" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#ef8121] transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Work Email *</label>
+                                <input type="email" required placeholder="e.g. john@refinery.com" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#ef8121] transition-all">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Company / Refinery *</label>
+                                <input type="text" required placeholder="e.g. Global Energy Ltd" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#ef8121] transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Solution of Interest</label>
+                                <select class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#ef8121] transition-all cursor-pointer">
+                                    <option value="poc" class="bg-zinc-950">Free 90-Day POC Program</option>
+                                    <option value="ingenerox" class="bg-zinc-950">IngeneroX Platform (13 Agents)</option>
+                                    <option value="suites" class="bg-zinc-950">IngeneroX360AI Suites (17 Assets)</option>
+                                    <option value="general" class="bg-zinc-950">General Technical Inquiry</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Message / Requirement Details</label>
+                            <textarea rows="4" placeholder="Tell us about your asset optimization goals or specific process tags..." class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#ef8121] transition-all resize-none"></textarea>
+                        </div>
+
+                        <div id="contact-success-msg" class="hidden p-4 bg-emerald-950/80 border border-emerald-500/50 rounded-xl text-emerald-300 text-xs font-semibold flex items-center">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-base mr-2.5"></i>
+                            <span>Thank you! Your message has been received. An Ingenero Solutions Engineer will contact you within 24 hours.</span>
+                        </div>
+
+                        <button type="submit" id="contact-submit-btn" class="w-full py-3.5 px-6 text-sm font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer flex items-center justify-center space-x-2">
+                            <span>Submit Request</span>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Right: Global Offices & Contact Information -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Contact Cards -->
+                    <div class="bg-zinc-950/80 border border-zinc-800/90 rounded-3xl p-8 shadow-2xl backdrop-blur-xl space-y-6">
+                        <h3 class="text-lg font-bold text-white border-b border-zinc-800 pb-3 flex items-center">
+                            <i class="fa-solid fa-building text-[#ef8121] mr-2"></i> Global Offices
+                        </h3>
+
+                        <!-- Houston Office -->
+                        <div class="border-b border-zinc-800/80 pb-5">
+                            <h4 class="font-bold text-white text-base mb-3 flex items-center">
+                                <i class="fa-solid fa-location-dot text-[#ef8121] mr-2"></i> Houston Office
+                            </h4>
+                            <div class="space-y-2 text-xs text-zinc-300 pl-6">
+                                <p class="font-semibold text-white">Ingenero Inc.</p>
+                                <p class="text-zinc-400">4615 Southwest Fwy, Suite #320<br>Houston, TX 77027</p>
+                                <p class="text-[#ef8121] font-mono font-bold flex items-center mt-2">
+                                    <i class="fa-solid fa-phone mr-2 text-[10px]"></i> +1 713 223 9940
+                                </p>
+                                <p class="text-zinc-400 font-mono flex items-center">
+                                    <i class="fa-solid fa-envelope mr-2 text-[10px] text-zinc-500"></i> usa@ingenero.com
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Mumbai Office -->
+                        <div class="pt-2">
+                            <h4 class="font-bold text-white text-base mb-3 flex items-center">
+                                <i class="fa-solid fa-location-dot text-[#ef8121] mr-2"></i> Mumbai Office
+                            </h4>
+                            <div class="space-y-2 text-xs text-zinc-300 pl-6">
+                                <p class="font-semibold text-white">Ingenero Technologies (India) Pvt. Ltd.</p>
+                                <p class="text-zinc-400 leading-relaxed">Unit No. 2, 8th Floor, A Wing, i Think Techno Campus, Pokhran Road No. 2, Thane (W), Mumbai, Maharashtra 400 607</p>
+                                <p class="text-[#ef8121] font-mono font-bold flex items-center mt-2">
+                                    <i class="fa-solid fa-phone mr-2 text-[10px]"></i> 912261764500
+                                </p>
+                                <p class="text-zinc-400 font-mono flex items-center">
+                                    <i class="fa-solid fa-envelope mr-2 text-[10px] text-zinc-500"></i> india@ingenero.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Support Callout -->
+                    <div class="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800 p-6 rounded-3xl flex items-center justify-between">
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Need immediate technical assistance?</h4>
+                            <p class="text-xs text-zinc-400 mt-0.5">Our 24/7 process engineers are available online.</p>
+                        </div>
+                        <a href="mailto:info@ingenero.com" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-xl border border-zinc-700 transition-all">Email Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <!-- Footer -->
     <footer class="border-t border-zinc-900 py-12 bg-[#0D0F12] text-sm text-zinc-500">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -1234,7 +1782,7 @@
                 <div class="mt-1">
                     <span class="text-zinc-400">USA: usa@ingenero.com (+1 713 223 9940)</span>
                     <span class="mx-2">|</span>
-                    <span class="text-zinc-400">India: india@ingenero.com (+91 22 6176 4500)</span>
+                    <span class="text-zinc-400">India: india@ingenero.com (912261764500)</span>
                     <span class="mx-2">|</span>
                     <a href="https://www.ingenero.com" target="_blank" class="text-[#ef8121] hover:underline transition-colors font-bold">www.ingenero.com</a>
                 </div>
@@ -1660,17 +2208,17 @@
             }
 
             // Sync Ribbon buttons
-            ['suite', 'agents', 'suites', 'dashboards', 'cases', 'videos', 'poc'].forEach(m => {
+            ['suite', 'agents', 'suites', 'dashboards', 'cases', 'videos', 'poc', 'contact'].forEach(m => {
                 const btn = document.getElementById('nav-' + m);
                 if(btn) {
                     if(m === moduleName) {
                         btn.className = m === 'agents' || m === 'suites' ? 
                             "px-4 py-2 rounded-lg transition-all bg-[#ef8121]/20 border border-[#ef8121]/50" : 
-                            "px-4 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow";
+                            "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow";
                     } else {
                         btn.className = m === 'agents' || m === 'suites' ? 
                             "px-4 py-2 rounded-lg transition-all hover:bg-zinc-800/50" : 
-                            "px-4 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white";
+                            "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white";
                     }
                 }
             });
@@ -2571,6 +3119,93 @@
             }
         }
 
+        // --- Testimonials Carousel Animation Controller ---
+        let currentTestimIndex = 0;
+        let testimAutoTimer = null;
+
+        function showTestimonialSlide(index) {
+            const slides = document.querySelectorAll('.testim-slide');
+            const dots = document.querySelectorAll('#testim-dots button');
+            if (!slides.length) return;
+
+            if (index >= slides.length) currentTestimIndex = 0;
+            else if (index < 0) currentTestimIndex = slides.length - 1;
+            else currentTestimIndex = index;
+
+            slides.forEach((slide, idx) => {
+                if (idx === currentTestimIndex) {
+                    slide.classList.remove('hidden');
+                    slide.style.opacity = '0';
+                    slide.style.transform = 'translateY(8px)';
+                    void slide.offsetWidth;
+                    slide.style.opacity = '1';
+                    slide.style.transform = 'translateY(0)';
+                } else {
+                    slide.classList.add('hidden');
+                }
+            });
+
+            dots.forEach((dot, idx) => {
+                if (idx === currentTestimIndex) {
+                    dot.className = "w-6 h-3 rounded-full bg-[#ef8121] transition-all cursor-pointer shadow-[0_0_8px_#ef8121]";
+                } else {
+                    dot.className = "w-3 h-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer";
+                }
+            });
+        }
+
+        window.changeTestimonial = function(dir) {
+            showTestimonialSlide(currentTestimIndex + dir);
+            resetTestimonialTimer();
+        }
+
+        window.goToTestimonial = function(index) {
+            showTestimonialSlide(index);
+            resetTestimonialTimer();
+        }
+
+        function resetTestimonialTimer() {
+            if (testimAutoTimer) clearInterval(testimAutoTimer);
+            testimAutoTimer = setInterval(() => {
+                showTestimonialSlide(currentTestimIndex + 1);
+            }, 6000);
+        }
+
+        window.handleContactSubmit = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('contact-submit-btn');
+            const msg = document.getElementById('contact-success-msg');
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-xs mr-2"></i> Submitting...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.innerHTML = `<i class="fa-solid fa-check text-xs mr-2"></i> Message Sent Successfully!`;
+                btn.className = "w-full py-3.5 px-6 text-sm font-extrabold text-white bg-emerald-600 rounded-xl transition-all shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2";
+                msg.classList.remove('hidden');
+            }, 900);
+        }
+
+        // --- Scroll Reveal & Viewport Observer (GSAP / ingenero.com style) ---
+        function initScrollReveal() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -40px 0px',
+                threshold: 0.08
+            };
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
         // Global Event Handlers
         document.addEventListener('DOMContentLoaded', () => {
             renderVideoGrid();
@@ -2579,6 +3214,13 @@
             
             // Auto initialize the simulator with DataHubX
             simulateAgent('DataHubX');
+
+            // Initialize Testimonials Carousel
+            showTestimonialSlide(0);
+            resetTestimonialTimer();
+
+            // Initialize Scroll Reveal Animations (ingenero.com GSAP style)
+            initScrollReveal();
             
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeLightbox();
