@@ -105,27 +105,27 @@
                 <img src="assets/logos/Ingenero_Logo-removebg-preview.png" alt="Ingenero Logo" class="h-10 sm:h-12 w-auto object-contain">
             </div>
             
-            <!-- Module Switcher Menu (Enlarged logos in top ribbon) -->
-            <div class="hidden xl:flex items-center space-x-3 bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
-                <button onclick="switchModule('suite')" id="nav-suite" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow">Digital Ecosystem</button>
-                <button onclick="switchModule('agents')" id="nav-agents" class="px-3 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50">
-                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-7 w-auto object-contain inline-block align-middle">
+            <!-- Module Switcher Menu (Horizontal Tab Ribbon across Edge, Chrome, Safari, Firefox) -->
+            <div class="hidden lg:flex items-center space-x-1 sm:space-x-2 xl:space-x-3 bg-zinc-900/70 p-1.5 rounded-xl border border-zinc-800/90 shadow-inner">
+                <button onclick="switchModule('suite')" id="nav-suite" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow whitespace-nowrap cursor-pointer">Digital Ecosystem</button>
+                <button onclick="switchModule('agents')" id="nav-agents" class="px-2.5 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50 whitespace-nowrap cursor-pointer" title="IngeneroX Platform">
+                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-6 sm:h-7 w-auto object-contain inline-block align-middle">
                 </button>
-                <button onclick="switchModule('suites')" id="nav-suites" class="px-3 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50">
-                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-7 w-auto object-contain inline-block align-middle">
+                <button onclick="switchModule('suites')" id="nav-suites" class="px-2.5 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50 whitespace-nowrap cursor-pointer" title="IngeneroX360AI Suites">
+                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-6 sm:h-7 w-auto object-contain inline-block align-middle">
                 </button>
-                <button onclick="switchModule('dashboards')" id="nav-dashboards" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Live Dashboards</button>
-                <button onclick="switchModule('cases')" id="nav-cases" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Case Studies</button>
-                <button onclick="switchModule('videos')" id="nav-videos" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Demo Videos</button>
-                <button onclick="switchModule('contact')" id="nav-contact" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white">Contact Us</button>
+                <button onclick="switchModule('dashboards')" id="nav-dashboards" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Live Dashboards</button>
+                <button onclick="switchModule('cases')" id="nav-cases" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Case Studies</button>
+                <button onclick="switchModule('videos')" id="nav-videos" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Demo Videos</button>
+                <button onclick="switchModule('contact')" id="nav-contact" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Contact Us</button>
             </div>
 
             <div class="flex items-center space-x-3">
-                <button onclick="switchModule('poc')" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer">
+                <button onclick="switchModule('poc')" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer whitespace-nowrap">
                     Free POC Program
                 </button>
                 <!-- Mobile Nav Toggle -->
-                <div class="xl:hidden flex items-center bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
+                <div class="lg:hidden flex items-center bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
                     <select onchange="switchModule(this.value)" class="bg-transparent text-xs font-bold text-zinc-300 border-none outline-none cursor-pointer px-2 py-1">
                         <option value="suite" class="bg-zinc-950">Digital Ecosystem</option>
                         <option value="agents" class="bg-zinc-950">IngeneroX Platform</option>
