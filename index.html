@@ -93,6 +93,42 @@
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Seeq-Style Animated Mega Menu Drawer with Zero-Flicker Hover Bridge */
+        .mega-menu-container {
+            position: relative;
+            padding-bottom: 8px;
+            margin-bottom: -8px;
+        }
+
+        .mega-menu-drawer {
+            opacity: 0;
+            transform: translateY(-6px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            visibility: hidden;
+            top: 100%;
+        }
+
+        /* Continuous hover bridge */
+        .mega-menu-container:hover .mega-menu-drawer,
+        .mega-menu-drawer:hover,
+        .mega-menu-drawer.is-open {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            pointer-events: auto !important;
+            visibility: visible !important;
+        }
+
+        .mega-menu-container:hover .rotate-icon,
+        .mega-menu-container:focus-within .rotate-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Enforce Hand Pointer Cursor across interactive elements */
+        a, button, [onclick], select, option, .cursor-pointer {
+            cursor: pointer !important;
+        }
     </style>
 </head>
 <body class="bg-[#0D0F12] text-zinc-100 antialiased selection:bg-[#ef8121] selection:text-zinc-950">
@@ -105,24 +141,328 @@
                 <img src="assets/logos/Ingenero_Logo-removebg-preview.png" alt="Ingenero Logo" class="h-10 sm:h-12 w-auto object-contain">
             </div>
             
-            <!-- Module Switcher Menu (Horizontal Tab Ribbon across Edge, Chrome, Safari, Firefox) -->
-            <div class="hidden lg:flex items-center space-x-1 sm:space-x-2 xl:space-x-3 bg-zinc-900/70 p-1.5 rounded-xl border border-zinc-800/90 shadow-inner">
-                <button onclick="switchModule('suite')" id="nav-suite" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow whitespace-nowrap cursor-pointer">Digital Ecosystem</button>
-                <button onclick="switchModule('agents')" id="nav-agents" class="px-2.5 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50 whitespace-nowrap cursor-pointer" title="IngeneroX Platform">
-                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-6 sm:h-7 w-auto object-contain inline-block align-middle">
+            <!-- Seeq-Style Top Bar Navigation & Mega Menu Dropdowns -->
+            <div class="hidden lg:flex items-center space-x-1 xl:space-x-2">
+                <!-- Ecosystem Home -->
+                <button onclick="selectNavTab('nav-suite', 'suite')" id="nav-suite" class="px-3.5 py-2 text-xs font-extrabold rounded-xl transition-all text-[#ef8121] bg-[#ef8121]/15 border border-[#ef8121]/40 shadow-[0_0_12px_rgba(239,129,33,0.3)] cursor-pointer whitespace-nowrap">
+                    Digital Ecosystem
                 </button>
-                <button onclick="switchModule('suites')" id="nav-suites" class="px-2.5 py-1.5 rounded-lg transition-all hover:bg-zinc-800/50 whitespace-nowrap cursor-pointer" title="IngeneroX360AI Suites">
-                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-6 sm:h-7 w-auto object-contain inline-block align-middle">
-                </button>
-                <button onclick="switchModule('dashboards')" id="nav-dashboards" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Live Dashboards</button>
-                <button onclick="switchModule('cases')" id="nav-cases" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Case Studies</button>
-                <button onclick="switchModule('videos')" id="nav-videos" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Demo Videos</button>
-                <button onclick="switchModule('contact')" id="nav-contact" class="px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white whitespace-nowrap cursor-pointer">Contact Us</button>
+
+                <!-- PRODUCTS MEGA MENU DROPDOWN (Seeq Style) -->
+                <div class="mega-menu-container" onmouseenter="openMegaMenu('products')" onmouseleave="closeMegaMenu('products')">
+                    <button id="nav-products" onclick="selectNavTab('nav-products', 'agents'); toggleMegaMenu('products', event)" class="px-3.5 py-2 text-xs font-bold rounded-xl text-zinc-300 hover:text-white hover:bg-zinc-900/60 flex items-center space-x-1.5 transition-all cursor-pointer whitespace-nowrap">
+                        <span>PRODUCTS & AGENTS</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-[#ef8121] transition-transform duration-300 rotate-icon"></i>
+                    </button>
+
+                    <!-- Mega Dropdown Drawer Panel -->
+                    <div id="mega-drawer-products" class="mega-menu-drawer absolute left-1/2 -translate-x-1/2 w-[880px] bg-zinc-950/95 border border-zinc-800 rounded-3xl p-6 shadow-2xl backdrop-blur-2xl grid grid-cols-12 gap-6 z-50">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ef8121] to-transparent rounded-t-3xl"></div>
+                        
+                        <!-- Column 1: IngeneroX Agents (13) -->
+                        <div class="col-span-5 border-r border-zinc-800/80 pr-5">
+                            <div class="flex items-center justify-between mb-3 border-b border-zinc-800 pb-2">
+                                <span class="text-[10px] font-mono font-bold text-[#ef8121] uppercase tracking-wider flex items-center">
+                                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-4 w-auto mr-1.5 inline"> Platform Agents (13)
+                                </span>
+                                <button onclick="selectNavTab('nav-products', 'agents')" class="text-[10px] text-zinc-400 hover:text-white font-bold cursor-pointer">View All <i class="fa-solid fa-arrow-right text-[8px]"></i></button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-1.5 text-xs max-h-[360px] overflow-y-auto pr-1">
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('DataHubX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-network-wired text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">DataHubX</div>
+                                        <div class="text-[9px] text-zinc-500">OPC Ingestion</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('TrendX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-chart-line text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">TrendX</div>
+                                        <div class="text-[9px] text-zinc-500">Multi-Trends</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('BaseX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-calculator text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">BaseX</div>
+                                        <div class="text-[9px] text-zinc-500">Mass/Energy Math</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('OptimaX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-robot text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">OptimaX</div>
+                                        <div class="text-[9px] text-zinc-500">Yield Optimizer</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('AlertX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-bell text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">AlertX</div>
+                                        <div class="text-[9px] text-zinc-500">Logic Alarms</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('HybridX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-brain text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">HybridX</div>
+                                        <div class="text-[9px] text-zinc-500">Digital Twins</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('PENAI')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-comments text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">PENAI</div>
+                                        <div class="text-[9px] text-zinc-500">RAG AI Copilot</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('APCperformX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-sliders text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">APCperformX</div>
+                                        <div class="text-[9px] text-zinc-500">Control Audit</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('AnalyticX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-chart-pie text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">AnalyticX</div>
+                                        <div class="text-[9px] text-zinc-500">Predictive ML</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'agents'); simulateAgent('AlgoX')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-code text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">AlgoX</div>
+                                        <div class="text-[9px] text-zinc-500">Python Runner</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Column 2: IngeneroX360AI Process Suites (ALL 17) -->
+                        <div class="col-span-7 pl-1">
+                            <div class="flex items-center justify-between mb-3 border-b border-zinc-800 pb-2">
+                                <span class="text-[10px] font-mono font-bold text-[#ef8121] uppercase tracking-wider flex items-center">
+                                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-4 w-auto mr-1.5 inline"> 17 Process Suites
+                                </span>
+                                <button onclick="selectNavTab('nav-products', 'suites')" class="text-[10px] text-zinc-400 hover:text-white font-bold cursor-pointer">Explore Grid <i class="fa-solid fa-arrow-right text-[8px]"></i></button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1.5 text-xs max-h-[360px] overflow-y-auto pr-1">
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-fire-burner text-amber-500 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">OlefinsX360</div>
+                                        <div class="text-[9px] text-zinc-500">Ethylene Cracker</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-cubes text-teal-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">PolymersX360</div>
+                                        <div class="text-[9px] text-zinc-500">Grade Transitions</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-[#ef8121] fa-flask text-sky-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">EO/EGX360</div>
+                                        <div class="text-[9px] text-zinc-500">Ethylene Oxide</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-[#ef8121] fa-seedling text-emerald-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">AmmoniaX360</div>
+                                        <div class="text-[9px] text-zinc-500">Synthesis Loop</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-industry text-purple-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">MethanolX360</div>
+                                        <div class="text-[9px] text-zinc-500">Purge & Catalyst</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-oil-well text-amber-600 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">COKERX360</div>
+                                        <div class="text-[9px] text-zinc-500">Delayed Coker</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-industry text-blue-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">CDU-VDUX360</div>
+                                        <div class="text-[9px] text-zinc-500">Crude Pinch</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-shield-halved text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">ReliabilityX360</div>
+                                        <div class="text-[9px] text-zinc-500">Pump & Vibration</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-[#ef8121] fa-wind text-lime-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">ASUX360</div>
+                                        <div class="text-[9px] text-zinc-500">Air Separation</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-bolt text-yellow-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">EnergyX360</div>
+                                        <div class="text-[9px] text-zinc-500">MILP Steam Network</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-atom text-indigo-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">MTBEX360</div>
+                                        <div class="text-[9px] text-zinc-500">Petrochemical</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-[#ef8121] fa-layer-group text-emerald-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">MLOpsx360</div>
+                                        <div class="text-[9px] text-zinc-500">Model Ops</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-triangle-exclamation text-rose-500 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">ORAX360</div>
+                                        <div class="text-[9px] text-zinc-500">Asset Safety</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-[#ef8121] fa-temperature-arrow-up text-orange-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">BoilerX360</div>
+                                        <div class="text-[9px] text-zinc-500">Boiler Efficiency</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-[#ef8121] fa-diagram-project text-indigo-300 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">WorkFlowX360</div>
+                                        <div class="text-[9px] text-zinc-500">Data Scheduler</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-fuchsia-400 text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">GENAIX360</div>
+                                        <div class="text-[9px] text-zinc-500">Operator AI</div>
+                                    </div>
+                                </a>
+                                <a onclick="selectNavTab('nav-products', 'suites')" class="p-2 rounded-xl hover:bg-zinc-900 transition-colors flex items-center space-x-2 cursor-pointer group/item">
+                                    <i class="fa-solid fa-fire text-[#ef8121] text-xs"></i>
+                                    <div>
+                                        <div class="font-bold text-white group-hover/item:text-[#ef8121]">FurnaceX360</div>
+                                        <div class="text-[9px] text-zinc-500">Heater Monitor</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CASE STUDIES & ROI MEGA MENU DROPDOWN (Meaningful & Interactive) -->
+                <div class="mega-menu-container" onmouseenter="openMegaMenu('solutions')" onmouseleave="closeMegaMenu('solutions')">
+                    <button id="nav-solutions" onclick="selectNavTab('nav-solutions', 'cases'); toggleMegaMenu('solutions', event)" class="px-3.5 py-2 text-xs font-bold rounded-xl text-zinc-300 hover:text-white hover:bg-zinc-900/60 flex items-center space-x-1.5 transition-all cursor-pointer whitespace-nowrap">
+                        <span>CASE STUDIES & ROI</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-[#ef8121] transition-transform duration-300 rotate-icon"></i>
+                    </button>
+
+                    <!-- Case Studies & ROI Mega Dropdown Drawer Panel -->
+                    <div id="mega-drawer-solutions" class="mega-menu-drawer absolute left-1/2 -translate-x-1/2 w-[560px] bg-zinc-950/95 border border-zinc-800 rounded-3xl p-6 shadow-2xl backdrop-blur-2xl grid grid-cols-2 gap-6 z-50">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ef8121] to-transparent rounded-t-3xl"></div>
+                        <div>
+                            <span class="text-[10px] font-mono font-bold text-[#ef8121] uppercase tracking-wider block mb-3 border-b border-zinc-800 pb-2">Quantified Industry ROI</span>
+                            <div class="space-y-2 text-xs text-zinc-300">
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('ingenerox360ai')" class="block p-2 rounded-xl hover:bg-zinc-900 hover:text-white transition-colors cursor-pointer group/item">
+                                    <div class="font-bold text-white group-hover/item:text-[#ef8121] flex items-center"><i class="fa-solid fa-fire-burner text-amber-500 mr-2 text-xs"></i> Olefins Cracker (+24% Run Length)</div>
+                                    <div class="text-[10px] text-zinc-500 ml-6">Pyrolysis furnace tube temp & yield</div>
+                                </a>
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('ingenerox360ai')" class="block p-2 rounded-xl hover:bg-zinc-900 hover:text-white transition-colors cursor-pointer group/item">
+                                    <div class="font-bold text-white group-hover/item:text-[#ef8121] flex items-center"><i class="fa-solid fa-oil-well text-amber-600 mr-2 text-xs"></i> Coker Overhead (+8% Throughput)</div>
+                                    <div class="text-[10px] text-zinc-500 ml-6">Drum spalling & foam-over prevention</div>
+                                </a>
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('ingenerox360ai')" class="block p-2 rounded-xl hover:bg-zinc-900 hover:text-white transition-colors cursor-pointer group/item">
+                                    <div class="font-bold text-white group-hover/item:text-[#ef8121] flex items-center"><i class="fa-solid fa-[#ef8121] fa-seedling text-emerald-400 mr-2 text-xs"></i> Ammonia Synthesis (-4% Power)</div>
+                                    <div class="text-[10px] text-zinc-500 ml-6">Converter purge loop optimization</div>
+                                </a>
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('ingenerox360ai')" class="block p-2 rounded-xl hover:bg-zinc-900 hover:text-white transition-colors cursor-pointer group/item">
+                                    <div class="font-bold text-white group-hover/item:text-[#ef8121] flex items-center"><i class="fa-solid fa-bolt text-yellow-400 mr-2 text-xs"></i> MILP Utility Grid ($850K Steam)</div>
+                                    <div class="text-[10px] text-zinc-500 ml-6">Plant-wide steam & power network</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono font-bold text-[#ef8121] uppercase tracking-wider block mb-3 border-b border-zinc-800 pb-2">Platform Value Audits</span>
+                            <div class="space-y-2 text-xs text-zinc-300">
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('ingenerox')" class="block p-2 rounded-xl hover:bg-zinc-900 hover:text-white transition-colors cursor-pointer group/item">
+                                    <div class="font-bold text-white group-hover/item:text-[#ef8121] flex items-center"><i class="fa-solid fa-sliders text-[#ef8121] mr-2 text-xs"></i> APC Controller Audit ($140K)</div>
+                                    <div class="text-[10px] text-zinc-500 ml-6">APCperformX loop constraint tuning</div>
+                                </a>
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('ingenerox')" class="block p-2 rounded-xl hover:bg-zinc-900 hover:text-white transition-colors cursor-pointer group/item">
+                                    <div class="font-bold text-white group-hover/item:text-[#ef8121] flex items-center"><i class="fa-solid fa-shield-halved text-[#ef8121] mr-2 text-xs"></i> Pump Vibration Warning</div>
+                                    <div class="text-[10px] text-zinc-500 ml-6">AlertX & DataHubX telemetry</div>
+                                </a>
+                                <a onclick="selectNavTab('nav-solutions', 'cases'); filterCases('all')" class="block p-2.5 rounded-xl bg-[#ef8121]/10 border border-[#ef8121]/30 hover:bg-[#ef8121]/20 transition-all text-center mt-3 cursor-pointer">
+                                    <span class="font-extrabold text-[#ef8121] text-xs">Browse All Case Studies <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESOURCES MEGA MENU DROPDOWN (Seeq Style) -->
+                <div class="mega-menu-container" onmouseenter="openMegaMenu('resources')" onmouseleave="closeMegaMenu('resources')">
+                    <button id="nav-resources" onclick="selectNavTab('nav-resources', 'dashboards'); toggleMegaMenu('resources', event)" class="px-3.5 py-2 text-xs font-bold rounded-xl text-zinc-300 hover:text-white hover:bg-zinc-900/60 flex items-center space-x-1.5 transition-all cursor-pointer whitespace-nowrap">
+                        <span>RESOURCES</span>
+                        <i class="fa-solid fa-chevron-down text-[9px] text-[#ef8121] transition-transform duration-300 rotate-icon"></i>
+                    </button>
+
+                    <!-- Resources Mega Menu Panel -->
+                    <div id="mega-drawer-resources" class="mega-menu-drawer absolute left-1/2 -translate-x-1/2 w-[440px] bg-zinc-950/95 border border-zinc-800 rounded-3xl p-5 shadow-2xl backdrop-blur-2xl z-50">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ef8121] to-transparent rounded-t-3xl"></div>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <a onclick="selectNavTab('nav-resources', 'dashboards')" class="p-3 rounded-2xl bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-[#ef8121] transition-all cursor-pointer block">
+                                <i class="fa-solid fa-gauge-high text-[#ef8121] text-base mb-1 block"></i>
+                                <div class="font-bold text-white">Live Dashboards</div>
+                                <div class="text-[10px] text-zinc-500 mt-0.5">Real-time KPI monitors</div>
+                            </a>
+                            <a onclick="selectNavTab('nav-resources', 'cases')" class="p-3 rounded-2xl bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-[#ef8121] transition-all cursor-pointer block">
+                                <i class="fa-solid fa-file-pdf text-[#ef8121] text-base mb-1 block"></i>
+                                <div class="font-bold text-white">Whitepapers & Docs</div>
+                                <div class="text-[10px] text-zinc-500 mt-0.5">Technical ROI & Specs</div>
+                            </a>
+                            <a onclick="selectNavTab('nav-resources', 'videos')" class="p-3 rounded-2xl bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-[#ef8121] transition-all cursor-pointer block">
+                                <i class="fa-solid fa-circle-play text-[#ef8121] text-base mb-1 block"></i>
+                                <div class="font-bold text-white">Demo Videos</div>
+                                <div class="text-[10px] text-zinc-500 mt-0.5">Watch live walkthroughs</div>
+                            </a>
+                            <a onclick="selectNavTab('nav-contact', 'contact')" class="p-3 rounded-2xl bg-zinc-900/50 hover:bg-zinc-900 border border-zinc-800/80 hover:border-[#ef8121] transition-all cursor-pointer block">
+                                <i class="fa-solid fa-bullseye text-[#ef8121] text-base mb-1 block"></i>
+                                <div class="font-bold text-white">Free POC Evaluation</div>
+                                <div class="text-[10px] text-zinc-500 mt-0.5">30-day evaluation program</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex items-center space-x-3">
-                <button onclick="switchModule('poc')" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer whitespace-nowrap">
-                    Free POC Program
+                <button onclick="selectNavTab('nav-contact', 'contact')" id="nav-contact" class="hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer whitespace-nowrap">
+                    Free 30-Day POC
                 </button>
                 <!-- Mobile Nav Toggle -->
                 <div class="lg:hidden flex items-center bg-zinc-900/60 p-1.5 rounded-xl border border-zinc-800">
@@ -131,10 +471,10 @@
                         <option value="agents" class="bg-zinc-950">IngeneroX Platform</option>
                         <option value="suites" class="bg-zinc-950">IngeneroX360AI Suites</option>
                         <option value="dashboards" class="bg-zinc-950">Live Dashboards</option>
-                        <option value="cases" class="bg-zinc-950">Case Studies</option>
+                        <option value="cases" class="bg-zinc-950">Case Studies & ROI</option>
+                        <option value="whitepapers" class="bg-zinc-950">Whitepapers & Docs</option>
                         <option value="videos" class="bg-zinc-950">Demo Videos</option>
-                        <option value="poc" class="bg-zinc-950">Free POC Program</option>
-                        <option value="contact" class="bg-zinc-950">Contact Us</option>
+                        <option value="contact" class="bg-zinc-950">Free 30-Day POC</option>
                     </select>
                 </div>
             </div>
@@ -143,46 +483,71 @@
 
     <!-- ================= VIEW 1: DIGITAL ECOSYSTEM (HOME) ================= -->
     <div id="view-suite" class="suite-view fade-view fade-in relative min-h-[90vh]">
-        <!-- Background Banner Video (Similar to ingenero.com - overlay-free full viewport) -->
+        <!-- Background Banner Video (Reduced Transparency - Higher Contrast Dark Overlay) -->
         <div class="absolute top-0 left-0 w-full h-[620px] overflow-hidden -z-10 bg-zinc-950">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-75">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-30">
                 <source src="https://ingenero.com/wp-content/themes/ingenero/assets/video/banner-video.mp4" type="video/mp4">
             </video>
-            <div class="absolute inset-0 bg-gradient-to-b from-[#0D0F12]/30 via-[#0D0F12]/80 to-[#0D0F12]"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0D0F12]/50 via-[#0D0F12]/85 to-[#0D0F12]"></div>
         </div>
 
-        <section class="pt-24 pb-20 lg:pt-32">
+        <section class="pt-4 sm:pt-6 pb-8">
             <div class="max-w-7xl mx-auto px-6 text-center">
                 <!-- Clean text overlays with drop-shadows matching ingenero.com premium look -->
                 <div class="max-w-4xl mx-auto relative z-10">
-                    <!-- Branding badge -->
-                    <div class="inline-flex items-center space-x-2 px-6 py-2.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl mb-8">
-                        <span class="w-3 h-3 rounded-full bg-[#ef8121] inline-block shadow-[0_0_12px_#ef8121]"></span>
-                        <span class="text-white font-extrabold text-sm tracking-tight">INGENERO INDUSTRIAL AI DIGITAL ECOSYSTEM</span>
+                    <!-- Branding badge (50% Opacity) -->
+                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 shadow-xl mb-3 backdrop-blur-md">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#ef8121] inline-block shadow-[0_0_12px_#ef8121]"></span>
+                        <span class="text-white font-extrabold text-xs tracking-tight">INGENERO INDUSTRIAL AI DIGITAL ECOSYSTEM</span>
                     </div>
                     
                     <!-- Main integrated heading -->
-                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-none drop-shadow-[0_4px_12px_rgba(0,0,0,0.85)]">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.85)]">
                         Powering Smarter Refining & Petrochemical Operations
                     </h1>
-                    <p class="mt-8 text-base sm:text-lg text-zinc-200 leading-relaxed max-w-2xl mx-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
-                        Deploy Ingenero's leading digital product verticals. Configure custom no-code pipelines with 
-                        <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-6 w-auto object-contain inline-block align-middle mx-1">, 
-                        or track asset optimization targets with pre-configured models from 
-                        <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-8 w-auto object-contain inline-block align-middle mx-1">.
+                    <p class="mt-3 text-xs sm:text-sm text-zinc-200 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+                        Deploy Ingenero's two distinct industrial AI product offerings: build custom no-code pipelines with 
+                        <strong onclick="selectNavTab('nav-products', 'agents')" class="text-[#ef8121] font-extrabold cursor-pointer hover:underline" title="Click to view IngeneroX Platform Agents">IngeneroX Platform <i class="fa-solid fa-arrow-up-right-from-square text-[9px] ml-0.5"></i></strong> 
+                        or monitor pre-configured asset models with 
+                        <strong onclick="selectNavTab('nav-products', 'suites')" class="text-[#ef8121] font-extrabold cursor-pointer hover:underline" title="Click to view IngeneroX360AI Process Suites">IngeneroX360AI Process Suites <i class="fa-solid fa-arrow-up-right-from-square text-[9px] ml-0.5"></i></strong>.
                     </p>
 
-                    <!-- Value Pillar Badges -->
-                    <div class="mt-10 flex flex-wrap justify-center gap-3">
-                        <span class="px-5 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-xs font-bold text-zinc-300 shadow-lg"><i class="fa-solid fa-shield-halved text-[#ef8121] mr-2"></i> RELIABILITY</span>
-                        <span class="px-5 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-xs font-bold text-zinc-300 shadow-lg"><i class="fa-solid fa-leaf text-[#ef8121] mr-2"></i> SUSTAINABILITY</span>
-                        <span class="px-5 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-xs font-bold text-zinc-300 shadow-lg"><i class="fa-solid fa-heart-pulse text-[#ef8121] mr-2"></i> PROCESS SAFETY</span>
-                        <span class="px-5 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-xs font-bold text-zinc-300 shadow-lg"><i class="fa-solid fa-robot text-[#ef8121] mr-2"></i> GENERATIVE AI</span>
+                    <!-- Prominent Two Distinct Product Portals Banner (50% Opacity Translucent Cyber Glass) -->
+                    <div class="mt-5 flex flex-wrap items-center justify-center gap-4 sm:gap-8 p-4 bg-zinc-950/50 border border-zinc-800/80 rounded-3xl max-w-3xl mx-auto backdrop-blur-xl shadow-2xl">
+                        <!-- Product 1 Card: IngeneroX Platform (50% Opacity) -->
+                        <div onclick="selectNavTab('nav-products', 'agents')" class="flex items-center space-x-4 px-5 py-3 bg-zinc-900/50 border border-zinc-800/80 hover:border-[#ef8121] hover:bg-zinc-900/70 hover:shadow-[0_0_20px_rgba(239,129,33,0.3)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer rounded-2xl group" title="Click to view IngeneroX 13 Agents">
+                            <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX Platform" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
+                            <div class="text-left border-l border-zinc-700/80 pl-4">
+                                <div class="text-xs font-mono font-extrabold text-white group-hover:text-[#ef8121] transition-colors flex items-center">
+                                    13 Platform Agents <i class="fa-solid fa-chevron-right text-[9px] ml-1.5 group-hover:translate-x-1 transition-transform"></i>
+                                </div>
+                                <div class="text-[10px] text-zinc-400 font-sans">No-Code Toolkit</div>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 Card: IngeneroX360AI Process Suites (50% Opacity) -->
+                        <div onclick="selectNavTab('nav-products', 'suites')" class="flex items-center space-x-4 px-5 py-3 bg-zinc-900/50 border border-zinc-800/80 hover:border-[#ef8121] hover:bg-zinc-900/70 hover:shadow-[0_0_20px_rgba(239,129,33,0.3)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer rounded-2xl group" title="Click to view IngeneroX360AI 17 Process Suites">
+                            <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI Process Suites" class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105">
+                            <div class="text-left border-l border-zinc-700/80 pl-4">
+                                <div class="text-xs font-mono font-extrabold text-white group-hover:text-[#ef8121] transition-colors flex items-center">
+                                    17 Process Suites <i class="fa-solid fa-chevron-right text-[9px] ml-1.5 group-hover:translate-x-1 transition-transform"></i>
+                                </div>
+                                <div class="text-[10px] text-zinc-400 font-sans">Asset AI Models</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Value Pillar Badges (50% Opacity) -->
+                    <div class="mt-5 flex flex-wrap justify-center gap-2.5">
+                        <span class="px-4 py-2 bg-zinc-900/50 border border-zinc-800/80 rounded-xl text-[11px] font-bold text-zinc-300 shadow-lg backdrop-blur-md"><i class="fa-solid fa-shield-halved text-[#ef8121] mr-1.5"></i> RELIABILITY</span>
+                        <span class="px-4 py-2 bg-zinc-900/50 border border-zinc-800/80 rounded-xl text-[11px] font-bold text-zinc-300 shadow-lg backdrop-blur-md"><i class="fa-solid fa-leaf text-[#ef8121] mr-1.5"></i> SUSTAINABILITY</span>
+                        <span class="px-4 py-2 bg-zinc-900/50 border border-zinc-800/80 rounded-xl text-[11px] font-bold text-zinc-300 shadow-lg backdrop-blur-md"><i class="fa-solid fa-heart-pulse text-[#ef8121] mr-1.5"></i> PROCESS SAFETY</span>
+                        <span class="px-4 py-2 bg-zinc-900/50 border border-zinc-800/80 rounded-xl text-[11px] font-bold text-zinc-300 shadow-lg backdrop-blur-md"><i class="fa-solid fa-robot text-[#ef8121] mr-1.5"></i> GENERATIVE AI</span>
                     </div>
                 </div>
 
                 <!-- ================= OUR PARTNERS SECTION (DARK CYBER GLASS ANIMATED) ================= -->
-                <div class="mt-24 max-w-6xl mx-auto reveal-on-scroll">
+                <div class="mt-20 max-w-6xl mx-auto">
                     <div class="text-center mb-10">
                         <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3 py-1 rounded-full border border-[#ef8121]/20">Global Alliances</span>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3 tracking-tight">Our Partners</h2>
@@ -265,312 +630,29 @@
                 </div>
 
                 <!-- ================= ANIMATED CLIENT TESTIMONIALS CAROUSEL ================= -->
-                <div class="mt-28 max-w-5xl mx-auto">
-                    <div class="text-center mb-12">
+                <div class="mt-16 max-w-5xl mx-auto">
+                    <div class="text-center mb-8">
                         <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3.5 py-1 rounded-full border border-[#ef8121]/20">Client Success Stories</span>
                         <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3 tracking-tight">Validated by Operations VPs & Plant Leaders</h2>
-                        <p class="mt-3 text-sm text-zinc-400 max-w-xl mx-auto">Real quantifiable impact delivered across global continuous processing facilities.</p>
+                        <p class="mt-3 text-sm text-zinc-400 max-w-xl mx-auto">Separate, platform-specific client testimonials for IngeneroX and IngeneroX360AI.</p>
+                    </div>
+
+                    <!-- Platform-Specific Testimonial Tab Switcher -->
+                    <div class="flex flex-wrap items-center justify-center gap-3 mb-6">
+                        <button id="tab-btn-ingenerox" onclick="switchTestimonialPlatform('ingenerox')" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all text-[#ef8121] bg-[#ef8121]/15 border border-[#ef8121]/40 shadow-[0_0_15px_rgba(239,129,33,0.25)] flex items-center cursor-pointer">
+                            <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-4 w-auto mr-2 inline"> IngeneroX Platform Testimonials
+                        </button>
+                        <button id="tab-btn-ingenerox360ai" onclick="switchTestimonialPlatform('ingenerox360ai')" class="px-5 py-2.5 text-xs font-bold rounded-xl transition-all text-zinc-400 hover:text-white hover:bg-zinc-900 border border-zinc-800 flex items-center cursor-pointer">
+                            <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-5 w-auto mr-2 inline"> IngeneroX360AI Process Suites Testimonials
+                        </button>
                     </div>
 
                     <!-- Interactive Testimonial Cards Carousel Container -->
                     <div class="relative bg-zinc-950/80 border border-zinc-800/90 rounded-3xl p-8 sm:p-12 shadow-2xl backdrop-blur-xl overflow-hidden min-h-[320px]">
                         <!-- Top Accent Glow Gradient -->
                         <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#ef8121] to-transparent"></div>
-                        
-                        <!-- Testimonial Slides (JS Managed) -->
-                        <div id="testimonial-slider-container">
-                        <!-- Testimonial Slides (10 Partner-Linked Case Stories) -->
-                        <div id="testimonial-slider-container">
-                            <!-- Slide 1: SABIC -->
-                            <div class="testim-slide transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-[#00A2E8]/10 border border-[#00A2E8]/30 text-[#00A2E8] font-black text-xs rounded-full">SABIC</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "Deploying <span class="text-[#ef8121] font-bold">OlefinsX360</span> and <span class="text-[#ef8121] font-bold">OptimaX</span> across our furnace passes allowed us to maintain peak ethylene yield while reducing fuel gas consumption by 2.8%, saving an estimated $2.4M annually."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#00A2E8] to-blue-800 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            TH
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Dr. Tariq Al-Hassan <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">VP of Petrochemical Operations, SABIC</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> OlefinsX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-robot text-[#ef8121] mr-1"></i> OptimaX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 2: Westlake -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-[#005A9C]/10 border border-[#005A9C]/30 text-[#005A9C] font-extrabold text-xs rounded-full">Westlake</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">PolymersX360</span> combined with <span class="text-[#ef8121] font-bold">BaseX</span> mass-balance calculations shortened our PVC grade transition off-spec window by 18%, recovering $1.8M in annual throughput capacity."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#005A9C] to-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            CM
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Craig Mitchell <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">Director of Process Optimization, Westlake Chemical</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> PolymersX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-calculator text-[#ef8121] mr-1"></i> BaseX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 3: LyondellBasell -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 font-bold text-xs rounded-full">LyondellBasell</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">EO/EGX360</span> and <span class="text-[#ef8121] font-bold">AnalyticX</span> predictive algorithms enabled early detection of reactor temperature hot-spots, extending active catalyst run length by 9 full months."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            AT
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Dr. Aris Thorne <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">VP of Global Manufacturing Technology, LyondellBasell</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> EO/EGX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-chart-line text-[#ef8121] mr-1"></i> AnalyticX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 4: Chevron -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-red-500/10 border border-red-500/30 text-red-400 font-bold text-xs rounded-full">Chevron</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">CDU-VDUX360</span> combined with <span class="text-[#ef8121] font-bold">APCperformX</span> audited our crude preheat train pinch models, increasing heat recovery by 14°C and cutting overhead furnace fuel duty by $2.1M."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-rose-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            SJ
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Sarah Jenkins <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">Lead APC & Optimization Specialist, Chevron Refining</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> CDU-VDUX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-sliders text-[#ef8121] mr-1"></i> APCperformX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 5: Farabi Petrochemicals -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xs rounded-full">Farabi</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">ReliabilityX360</span> and <span class="text-[#ef8121] font-bold">DataHubX</span> tag ingestion provided predictive vibration health alerts on critical charge pumps with 99.9% telemetry uptime."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-teal-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            FZ
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Fahad Al-Zahrani <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">General Manager of Plant Technology, Farabi Petrochemicals</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-shield-halved text-[#ef8121] mr-1"></i> ReliabilityX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-network-wired text-[#ef8121] mr-1"></i> DataHubX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 6: Indorama Ventures -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold text-xs rounded-full">Indorama</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">MTBEX360</span> coupled with <span class="text-[#ef8121] font-bold">TrendX</span> multi-variable visualization gave our control room operators immediate insight into feed ratio drifts before quality limits breached."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-600 to-blue-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            KP
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Kittisak Prasert <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">Director of Chemical Manufacturing, Indorama Ventures</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> MTBEX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-chart-line text-[#ef8121] mr-1"></i> TrendX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 7: Bharat Petroleum (BPCL) -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs rounded-full">BPCL</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">COKERX360</span> with <span class="text-[#ef8121] font-bold">AlertX</span> multi-variable alarm logic eliminated delayed coker drum foam-over risks and increased refinery run lengths by 8%."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-amber-800 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            RS
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Rajesh Sharma <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">Executive Director (Process Engineering), BPCL Refinery</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> COKERX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-bell text-[#ef8121] mr-1"></i> AlertX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 8: AspenTech -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs rounded-full">AspenTech Partner</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">HybridX</span> digital twin integration with <span class="text-[#ef8121] font-bold">MLOpsx360</span> provides a seamless bridge between thermodynamic physical models and real-time machine learning predictions."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            VP
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">Dr. Vikram Patel <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">VP of Asset Performance Management, AspenTech Alliance</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> MLOpsx360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-[#ef8121] fa-brain mr-1 text-[#ef8121]"></i> HybridX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 9: HPCL -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-red-600/10 border border-red-600/30 text-red-500 font-bold text-xs rounded-full">HPCL</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">EnergyX360</span> combined with <span class="text-[#ef8121] font-bold">NotifyX</span> dispatchers delivered an immediate 3.4% reduction in overall refinery steam & power bill with instant automated alert routing."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-700 to-red-950 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            SV
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">S. K. Verma <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">Chief General Manager (Energy & Utilities), HPCL</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> EnergyX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-paper-plane text-[#ef8121] mr-1"></i> NotifyX</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Slide 10: Honeywell -->
-                            <div class="testim-slide hidden transition-all duration-500 transform">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex items-center space-x-1 text-amber-400 text-xs">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                                        <span class="ml-2 font-mono font-bold text-zinc-400">5.0 / 5.0 Rating</span>
-                                    </div>
-                                    <span class="px-3 py-1 bg-rose-500/10 border border-rose-500/30 text-rose-400 font-bold text-xs rounded-full">Honeywell</span>
-                                </div>
-                                <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
-                                    "<span class="text-[#ef8121] font-bold">GENAIX360</span> operator assistant integrated with <span class="text-[#ef8121] font-bold">PENAI</span> RAG manuals gives shift operators 20+ years of senior process engineering guidance directly within control room workflows."
-                                </blockquote>
-                                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-600 to-pink-900 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                                            DS
-                                        </div>
-                                        <div>
-                                            <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">David K. Sterling <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
-                                            <p class="text-[11px] text-zinc-400">CTO, Industrial Automation & Controls, Honeywell Integration</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-layer-group text-[#ef8121] mr-1"></i> GENAIX360</span>
-                                        <span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-comments text-[#ef8121] mr-1"></i> PENAI</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Testimonial Slides Container (JS Rendered) -->
+                        <div id="testimonial-slider-container"></div>
 
                         <!-- Carousel Controls & Navigation Dots -->
                         <div class="flex items-center justify-between mt-8 pt-4 border-t border-zinc-900">
@@ -601,44 +683,104 @@
                     </div>
                 </div>
 
-                <!-- ECOSYSTEM OVERVIEW SECTION -->
-                <div class="mt-24">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
-                        <!-- Card: IngeneroX Platform -->
-                        <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 flex flex-col justify-between hover:border-[#ef8121]/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#ef8121]/5 transition-all duration-300 relative overflow-hidden group">
-                            <div>
-                                <div class="flex items-center justify-between mb-6">
-                                    <span class="text-xs px-3 py-1 bg-zinc-800 border border-zinc-700 rounded-full text-zinc-300 font-bold uppercase tracking-wider">No-Code Platform</span>
-                                    <i class="fa-solid fa-cubes text-zinc-500 text-xl"></i>
-                                </div>
-                                <div class="mb-4">
-                                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX" class="h-16 w-auto object-contain">
-                                </div>
-                                <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6">
-                                    A modular, drag-and-drop tool suite allowing process engineers to create custom data processing pipelines, calculators, dashboards, and automated alert agents without coding.
-                                </p>
+                <!-- ================= TWO DISTINCT PRODUCTS & SELECTION GUIDE ================= -->
+                <div class="mt-24 max-w-6xl mx-auto text-left">
+                    <div class="text-center mb-12">
+                        <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3.5 py-1 rounded-full border border-[#ef8121]/20">Product Architecture & Selection Guide</span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-3 tracking-tight">Two Distinct Product Offerings</h2>
+                        <p class="mt-3 text-sm text-zinc-400 max-w-2xl mx-auto">Compare Ingenero's two standalone AI platforms and determine which product offering fits your facility's operational goals.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- PRODUCT 1: INGENEROPLATFORM (INGENEROX) -->
+                        <div class="bg-zinc-950/90 border-2 border-zinc-800 hover:border-[#ef8121]/80 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl flex flex-col justify-between transition-all duration-300 relative group">
+                            <div class="absolute top-0 right-0 px-4 py-1.5 bg-zinc-800 text-zinc-300 font-mono font-bold text-[10px] uppercase rounded-bl-xl border-b border-l border-zinc-700">
+                                PRODUCT 1 • NO-CODE TOOLKIT
                             </div>
-                            <button onclick="switchModule('agents')" class="inline-flex items-center justify-center px-5 py-3 text-xs font-bold text-white bg-zinc-800 hover:bg-zinc-700 rounded-xl transition-all border border-zinc-700 text-center w-full cursor-pointer shadow-lg hover:shadow-zinc-800/40">
-                                Explore IngeneroX Agents <i class="fa-solid fa-arrow-right ml-1.5"></i>
+
+                            <div>
+                                <!-- BIG PROMINENT LOGO -->
+                                <div class="h-24 flex items-center mb-6 border-b border-zinc-800/80 pb-4">
+                                    <img src="assets/logos/IngeneroX_logo-removebg-preview.png" alt="IngeneroX Platform" class="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105">
+                                </div>
+
+                                <div class="space-y-5 mb-8">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white mb-2">IngeneroX Platform</h3>
+                                        <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                                            A modular, drag-and-drop no-code software toolkit containing <strong>13 Autonomous Agent tools</strong>. Engineered for process engineers to build custom calculation engines, trend charts, RAG copilots, and logic alarm dispatchers without software developers.
+                                        </p>
+                                    </div>
+
+                                    <!-- WHEN TO CHOOSE THIS PRODUCT -->
+                                    <div class="bg-zinc-900/80 p-5 rounded-2xl border border-zinc-800">
+                                        <span class="text-[11px] font-mono font-extrabold text-[#ef8121] uppercase tracking-wider flex items-center mb-2">
+                                            <i class="fa-solid fa-circle-check mr-2 text-sm"></i> CHOOSE INGENEROX WHEN:
+                                        </span>
+                                        <ul class="space-y-2.5 text-xs text-zinc-300">
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You need custom calculation pipelines for site-specific plant formulas.</span></li>
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You want a RAG GenAI Copilot (PENAI) trained on your facility's SOP manuals.</span></li>
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>Your engineers run custom Python scripts (AlgoX) on live OPC tags.</span></li>
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You want to audit & tune existing DCS PID and APC control loop limits.</span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                                        <div class="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800"><span class="text-zinc-500 block text-[10px]">Architecture:</span> <strong class="text-white">13 Autonomous Agents</strong></div>
+                                        <div class="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800"><span class="text-zinc-500 block text-[10px]">Primary Users:</span> <strong class="text-white">Process & Control Engineers</strong></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onclick="selectNavTab('nav-products', 'agents')" class="w-full py-4 px-6 text-xs font-bold text-white bg-zinc-800 hover:bg-zinc-700 rounded-xl transition-all border border-zinc-700 text-center cursor-pointer flex items-center justify-center space-x-2">
+                                <span>Explore IngeneroX 13 Agents</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </button>
                         </div>
 
-                        <!-- Card: IngeneroX360AI Process Suites -->
-                        <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 flex flex-col justify-between hover:border-[#ef8121]/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#ef8121]/5 transition-all duration-300 relative overflow-hidden group shadow-[0_0_20px_rgba(239,129,33,0.03)]">
-                            <div>
-                                <div class="flex items-center justify-between mb-6">
-                                    <span class="text-xs px-3 py-1 bg-zinc-800 border border-zinc-700 rounded-full text-zinc-300 font-bold uppercase tracking-wider">Asset Specific Suites</span>
-                                    <i class="fa-solid fa-microchip text-zinc-500 text-xl"></i>
-                                </div>
-                                <div class="mb-4">
-                                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI" class="h-16 w-auto object-contain">
-                                </div>
-                                <p class="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6">
-                                    Pre-configured, historian-connected AI suites engineered for specific industrial assets. Combines thermodynamic formulas, predictive ML models, and interactive diagnostic dashboards.
-                                </p>
+                        <!-- PRODUCT 2: INGENEROPROCESS SUITES (INGENEROX360AI) -->
+                        <div class="bg-zinc-950/90 border-2 border-[#ef8121]/50 hover:border-[#ef8121] rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl flex flex-col justify-between transition-all duration-300 relative group shadow-[0_0_30px_rgba(239,129,33,0.1)]">
+                            <div class="absolute top-0 right-0 px-4 py-1.5 bg-[#ef8121] text-zinc-950 font-mono font-black text-[10px] uppercase rounded-bl-xl">
+                                PRODUCT 2 • TURNKEY SUITES
                             </div>
-                            <button onclick="switchModule('suites')" class="inline-flex items-center justify-center px-5 py-3 text-xs font-bold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg hover:shadow-[#ef8121]/20 text-center w-full cursor-pointer">
-                                Explore IngeneroX360AI Suites <i class="fa-solid fa-arrow-right ml-1.5"></i>
+
+                            <div>
+                                <!-- BIG PROMINENT LOGO -->
+                                <div class="h-24 flex items-center mb-6 border-b border-zinc-800/80 pb-4">
+                                    <img src="assets/logos/ingenero360XAI_logo_R1-removebg-preview.png" alt="IngeneroX360AI Process Suites" class="h-16 sm:h-20 w-auto object-contain transition-transform group-hover:scale-105">
+                                </div>
+
+                                <div class="space-y-5 mb-8">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white mb-2">IngeneroX360AI Process Suites</h3>
+                                        <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+                                            Pre-configured, historian-connected AI process suites built for <strong>17 specific industrial assets</strong> (e.g. Olefins Cracker, Delayed Coker, Ammonia Converter). Combines thermodynamic kinetic models, coking forecasts, and turnkey ROI dashboards.
+                                        </p>
+                                    </div>
+
+                                    <!-- WHEN TO CHOOSE THIS PRODUCT -->
+                                    <div class="bg-[#ef8121]/10 p-5 rounded-2xl border border-[#ef8121]/30">
+                                        <span class="text-[11px] font-mono font-extrabold text-[#ef8121] uppercase tracking-wider flex items-center mb-2">
+                                            <i class="fa-solid fa-circle-check mr-2 text-sm"></i> CHOOSE INGENEROX360AI WHEN:
+                                        </span>
+                                        <ul class="space-y-2.5 text-xs text-zinc-300">
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You need turn-key pre-configured AI for a specific asset (Coker, Olefins, Ammonia).</span></li>
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You require immediate furnace tube skin temp & coking thickness predictions.</span></li>
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You want plant-wide MILP steam network & power grid optimization (EnergyX360).</span></li>
+                                            <li class="flex items-start"><i class="fa-solid fa-angle-right text-[#ef8121] mr-2 mt-0.5 flex-shrink-0"></i> <span>You want pre-built executive ROI dashboards and grade transition monitors.</span></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                                        <div class="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800"><span class="text-zinc-500 block text-[10px]">Architecture:</span> <strong class="text-white">17 Process Suites</strong></div>
+                                        <div class="bg-zinc-900/40 p-3 rounded-xl border border-zinc-800"><span class="text-zinc-500 block text-[10px]">Primary Users:</span> <strong class="text-white">Operations VPs & Plant Managers</strong></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button onclick="selectNavTab('nav-products', 'suites')" class="w-full py-4 px-6 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 text-center cursor-pointer flex items-center justify-center space-x-2">
+                                <span>Explore IngeneroX360AI 17 Process Suites</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </button>
                         </div>
                     </div>
@@ -1635,6 +1777,166 @@
         </section>
     </div>
 
+    <!-- ================= VIEW 9: WHITEPAPERS & ONE-PAGERS PAGE (#view-whitepapers) ================= -->
+    <div id="view-whitepapers" class="suite-view fade-view fade-out hidden relative min-h-[90vh]">
+        <!-- Background Overlay Video -->
+        <div class="absolute top-0 left-0 w-full h-[400px] overflow-hidden -z-10 bg-zinc-950">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-25">
+                <source src="https://ingenero.com/wp-content/themes/ingenero/assets/video/analytics_01.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0D0F12]/40 via-[#0D0F12]/80 to-[#0D0F12]"></div>
+        </div>
+
+        <section class="pt-12 pb-24 max-w-7xl mx-auto px-6">
+            <!-- Navigation Back Link -->
+            <div class="mb-8">
+                <button onclick="switchModule('suite')" class="text-xs text-[#ef8121] font-bold hover:underline inline-flex items-center cursor-pointer mb-3">
+                    <i class="fa-solid fa-arrow-left mr-1.5"></i> Back to Digital Ecosystem
+                </button>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-bold text-[#ef8121] uppercase tracking-[0.2em] font-mono bg-[#ef8121]/10 px-3.5 py-1 rounded-full border border-[#ef8121]/20">TECHNICAL SPECIFICATIONS & ONE-PAGERS</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-black text-white mt-3 tracking-tight">Whitepapers & Technical One-Pagers</h1>
+                <p class="mt-2 text-base text-zinc-400 max-w-3xl">Download executive whitepapers, OPC historian streaming security guides, and asset-specific 17 Process Suite technical one-pagers.</p>
+            </div>
+
+            <!-- Downloadable Whitepapers & One-Pagers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Document Card 1: Platform Architecture Whitepaper -->
+                <div class="bg-zinc-950/90 border border-zinc-800 hover:border-[#ef8121]/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold text-[#ef8121] bg-[#ef8121]/10 border border-[#ef8121]/30 rounded-full flex items-center">
+                                <i class="fa-solid fa-file-pdf mr-1.5"></i> PDF WHITEPAPER
+                            </span>
+                            <span class="text-[10px] font-mono text-zinc-500">16 Pages • 4.2 MB</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-[#ef8121] transition-colors mb-2">IngeneroX360 AI Platform Architecture</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-6">Comprehensive technical blueprint detailing real-time OPC historian ingestion, hybrid digital twin simulation engine, and multi-variable optimization math.</p>
+                    </div>
+                    <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                        <button onclick="previewOnePager('Platform Architecture', 'IngeneroX360_Platform_Architecture.pdf')" class="text-xs text-zinc-300 hover:text-white font-bold flex items-center cursor-pointer">
+                            <i class="fa-solid fa-eye text-[#ef8121] mr-1.5"></i> Preview
+                        </button>
+                        <button onclick="downloadPdf('IngeneroX360_Platform_Architecture.pdf')" class="px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-md cursor-pointer flex items-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Card 2: 13 Platform Agents Specification -->
+                <div class="bg-zinc-950/90 border border-zinc-800 hover:border-[#ef8121]/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold text-[#ef8121] bg-[#ef8121]/10 border border-[#ef8121]/30 rounded-full flex items-center">
+                                <i class="fa-solid fa-file-pdf mr-1.5"></i> TECHNICAL SPEC SHEET
+                            </span>
+                            <span class="text-[10px] font-mono text-zinc-500">8 Pages • 2.8 MB</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-[#ef8121] transition-colors mb-2">IngeneroX 13 Autonomous Agents Spec</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-6">Technical data sheet covering DataHubX, TrendX, BaseX, OptimaX, AlertX, HybridX, PENAI, and APCperformX input tags, calculation algorithms, and outputs.</p>
+                    </div>
+                    <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                        <button onclick="previewOnePager('13 Autonomous Agents Spec', 'IngeneroX_Agents_Specification.pdf')" class="text-xs text-zinc-300 hover:text-white font-bold flex items-center cursor-pointer">
+                            <i class="fa-solid fa-eye text-[#ef8121] mr-1.5"></i> Preview
+                        </button>
+                        <button onclick="downloadPdf('IngeneroX_Agents_Specification.pdf')" class="px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-md cursor-pointer flex items-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Card 3: OlefinsX360 One-Pager -->
+                <div class="bg-zinc-950/90 border border-zinc-800 hover:border-[#ef8121]/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-full flex items-center">
+                                <i class="fa-solid fa-file-lines mr-1.5"></i> ONE-PAGER PDF
+                            </span>
+                            <span class="text-[10px] font-mono text-zinc-500">2 Pages • 1.4 MB</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-[#ef8121] transition-colors mb-2">OlefinsX360 Ethylene Cracker One-Pager</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-6">Asset one-pager covering pyrolysis furnace tube metal temperature validation, pass-by-pass run-length forecasting, and steam-to-hydrocarbon ratio optimization.</p>
+                    </div>
+                    <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                        <button onclick="previewOnePager('OlefinsX360 Ethylene Cracker', 'OlefinsX360_Cracker_OnePager.pdf')" class="text-xs text-zinc-300 hover:text-white font-bold flex items-center cursor-pointer">
+                            <i class="fa-solid fa-eye text-[#ef8121] mr-1.5"></i> Preview
+                        </button>
+                        <button onclick="downloadPdf('OlefinsX360_Cracker_OnePager.pdf')" class="px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-md cursor-pointer flex items-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Card 4: COKERX360 One-Pager -->
+                <div class="bg-zinc-950/90 border border-zinc-800 hover:border-[#ef8121]/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 rounded-full flex items-center">
+                                <i class="fa-solid fa-file-lines mr-1.5"></i> ONE-PAGER PDF
+                            </span>
+                            <span class="text-[10px] font-mono text-zinc-500">2 Pages • 1.2 MB</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-[#ef8121] transition-colors mb-2">COKERX360 Delayed Coker One-Pager</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-6">Operational reference one-pager for delayed coker drum spalling prevention, overhead vapor line fouling monitoring, and anti-foam injection automation.</p>
+                    </div>
+                    <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                        <button onclick="previewOnePager('COKERX360 Delayed Coker', 'COKERX360_Delayed_Coker_OnePager.pdf')" class="text-xs text-zinc-300 hover:text-white font-bold flex items-center cursor-pointer">
+                            <i class="fa-solid fa-eye text-[#ef8121] mr-1.5"></i> Preview
+                        </button>
+                        <button onclick="downloadPdf('COKERX360_Delayed_Coker_OnePager.pdf')" class="px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-md cursor-pointer flex items-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Card 5: AmmoniaX360 One-Pager -->
+                <div class="bg-zinc-950/90 border border-zinc-800 hover:border-[#ef8121]/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-400/10 border border-emerald-400/30 rounded-full flex items-center">
+                                <i class="fa-solid fa-file-lines mr-1.5"></i> ONE-PAGER PDF
+                            </span>
+                            <span class="text-[10px] font-mono text-zinc-500">2 Pages • 1.1 MB</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-[#ef8121] transition-colors mb-2">AmmoniaX360 Synthesis Loop One-Pager</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-6">Synthesis converter loop purge fraction optimization, thermodynamic equilibrium solver details, and compressor power reduction specs.</p>
+                    </div>
+                    <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                        <button onclick="previewOnePager('AmmoniaX360 Synthesis Loop', 'AmmoniaX360_Synthesis_OnePager.pdf')" class="text-xs text-zinc-300 hover:text-white font-bold flex items-center cursor-pointer">
+                            <i class="fa-solid fa-eye text-[#ef8121] mr-1.5"></i> Preview
+                        </button>
+                        <button onclick="downloadPdf('AmmoniaX360_Synthesis_OnePager.pdf')" class="px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-md cursor-pointer flex items-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Card 6: Cybersecurity & OPC UA Integration -->
+                <div class="bg-zinc-950/90 border border-zinc-800 hover:border-[#ef8121]/50 rounded-3xl p-6 shadow-2xl backdrop-blur-xl flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold text-blue-400 bg-blue-400/10 border border-blue-400/30 rounded-full flex items-center">
+                                <i class="fa-solid fa-shield-halved mr-1.5"></i> SECURITY GUIDE
+                            </span>
+                            <span class="text-[10px] font-mono text-zinc-500">12 Pages • 3.5 MB</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-[#ef8121] transition-colors mb-2">Cybersecurity & OPC UA Integration Guide</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed mb-6">Enterprise OT/IT security whitepaper covering read-only OPC gateways, encrypted TLS buffers, and zero-trust plant network isolation protocols.</p>
+                    </div>
+                    <div class="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                        <button onclick="previewOnePager('Cybersecurity & OPC UA Guide', 'IngeneroX_Cybersecurity_Guide.pdf')" class="text-xs text-zinc-300 hover:text-white font-bold flex items-center cursor-pointer">
+                            <i class="fa-solid fa-eye text-[#ef8121] mr-1.5"></i> Preview
+                        </button>
+                        <button onclick="downloadPdf('IngeneroX_Cybersecurity_Guide.pdf')" class="px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-md cursor-pointer flex items-center">
+                            <i class="fa-solid fa-download mr-1.5"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <!-- ================= VIEW 8: CONTACT US PAGE (#view-contact) ================= -->
     <div id="view-contact" class="suite-view fade-view fade-out hidden relative min-h-[90vh]">
         <!-- Background Overlay Video -->
@@ -1687,7 +1989,7 @@
                             <div>
                                 <label class="block text-xs font-bold text-zinc-300 uppercase tracking-wider mb-2">Solution of Interest</label>
                                 <select class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#ef8121] transition-all cursor-pointer">
-                                    <option value="poc" class="bg-zinc-950">Free 90-Day POC Program</option>
+                                    <option value="poc" class="bg-zinc-950">Free 30-Day POC Program</option>
                                     <option value="ingenerox" class="bg-zinc-950">IngeneroX Platform (13 Agents)</option>
                                     <option value="suites" class="bg-zinc-950">IngeneroX360AI Suites (17 Assets)</option>
                                     <option value="general" class="bg-zinc-950">General Technical Inquiry</option>
@@ -2207,18 +2509,36 @@
                 targetView.classList.add('fade-in');
             }
 
-            // Sync Ribbon buttons
-            ['suite', 'agents', 'suites', 'dashboards', 'cases', 'videos', 'poc', 'contact'].forEach(m => {
-                const btn = document.getElementById('nav-' + m);
-                if(btn) {
-                    if(m === moduleName) {
-                        btn.className = m === 'agents' || m === 'suites' ? 
-                            "px-4 py-2 rounded-lg transition-all bg-[#ef8121]/20 border border-[#ef8121]/50" : 
-                            "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all bg-[#ef8121] text-zinc-950 shadow";
+            // Sync Ribbon / Mega Menu Top Bar Active States (Turns selected tab glowing orange)
+            const navItems = {
+                'suite': 'nav-suite',
+                'agents': 'nav-products',
+                'suites': 'nav-products',
+                'dashboards': 'nav-resources',
+                'whitepapers': 'nav-resources',
+                'cases': 'nav-resources',
+                'videos': 'nav-resources',
+                'poc': 'nav-resources',
+                'contact': 'nav-contact'
+            };
+
+            const activeId = navItems[moduleName];
+
+            ['nav-suite', 'nav-products', 'nav-solutions', 'nav-resources', 'nav-contact'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    if (id === 'nav-contact') {
+                        if (id === activeId) {
+                            btn.className = "hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-[0_0_20px_rgba(239,129,33,0.6)] ring-2 ring-white cursor-pointer whitespace-nowrap";
+                        } else {
+                            btn.className = "hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer whitespace-nowrap";
+                        }
                     } else {
-                        btn.className = m === 'agents' || m === 'suites' ? 
-                            "px-4 py-2 rounded-lg transition-all hover:bg-zinc-800/50" : 
-                            "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all text-zinc-300 hover:text-white";
+                        if (id === activeId) {
+                            btn.className = "px-3.5 py-2 text-xs font-extrabold rounded-xl transition-all text-[#ef8121] bg-[#ef8121]/15 border border-[#ef8121]/40 shadow-[0_0_12px_rgba(239,129,33,0.3)] flex items-center cursor-pointer whitespace-nowrap";
+                        } else {
+                            btn.className = "px-3.5 py-2 text-xs font-bold rounded-xl transition-all text-zinc-300 hover:text-white hover:bg-zinc-900/60 flex items-center cursor-pointer whitespace-nowrap";
+                        }
                     }
                 }
             });
@@ -2228,8 +2548,85 @@
                 mobileSelector.value = moduleName;
             }
 
+            // Close all mega menu drawers after selecting an option
+            document.querySelectorAll('.mega-menu-drawer').forEach(d => d.classList.remove('is-open'));
+
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
+
+        // --- One-Pager Preview & Download Handlers ---
+        function previewOnePager(title, filename) {
+            openLightbox('assets/dashboards/coker_figure_18.png', title + ' Technical Specification');
+        }
+
+        function downloadPdf(filename) {
+            // Simulated PDF Download feedback
+            alert("Starting download for " + filename + ". Technical specification saved.");
+        }
+
+        // --- Zero-Flicker Mega Menu & Active Tab Controller ---
+        let megaMenuHideTimer = null;
+
+        window.openMegaMenu = function(menuId) {
+            if (megaMenuHideTimer) clearTimeout(megaMenuHideTimer);
+            document.querySelectorAll('.mega-menu-drawer').forEach(d => {
+                if (d.id !== 'mega-drawer-' + menuId) d.classList.remove('is-open');
+            });
+            const target = document.getElementById('mega-drawer-' + menuId);
+            if (target) target.classList.add('is-open');
+        };
+
+        window.closeMegaMenu = function(menuId) {
+            megaMenuHideTimer = setTimeout(() => {
+                const target = document.getElementById('mega-drawer-' + menuId);
+                if (target && !target.matches(':hover')) {
+                    target.classList.remove('is-open');
+                }
+            }, 180);
+        };
+
+        window.toggleMegaMenu = function(menuId, e) {
+            if (e) e.stopPropagation();
+            const target = document.getElementById('mega-drawer-' + menuId);
+            if (!target) return;
+            const isOpen = target.classList.contains('is-open');
+            document.querySelectorAll('.mega-menu-drawer').forEach(d => d.classList.remove('is-open'));
+            if (!isOpen) {
+                target.classList.add('is-open');
+            }
+        };
+
+        window.selectNavTab = function(tabId, moduleName) {
+            ['nav-suite', 'nav-products', 'nav-solutions', 'nav-resources', 'nav-contact'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    if (id === 'nav-contact') {
+                        if (id === tabId) {
+                            btn.className = "hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-[0_0_20px_rgba(239,129,33,0.6)] ring-2 ring-white cursor-pointer whitespace-nowrap";
+                        } else {
+                            btn.className = "hidden sm:inline-flex items-center justify-center px-4 py-2 text-xs font-extrabold text-zinc-950 bg-[#ef8121] hover:bg-orange-600 rounded-xl transition-all shadow-lg shadow-[#ef8121]/30 cursor-pointer whitespace-nowrap";
+                        }
+                    } else {
+                        if (id === tabId) {
+                            btn.className = "px-3.5 py-2 text-xs font-extrabold rounded-xl transition-all text-[#ef8121] bg-[#ef8121]/15 border border-[#ef8121]/40 shadow-[0_0_12px_rgba(239,129,33,0.3)] flex items-center cursor-pointer whitespace-nowrap";
+                        } else {
+                            btn.className = "px-3.5 py-2 text-xs font-bold rounded-xl transition-all text-zinc-300 hover:text-white hover:bg-zinc-900/60 flex items-center cursor-pointer whitespace-nowrap";
+                        }
+                    }
+                }
+            });
+
+            if (moduleName) {
+                switchModule(moduleName);
+            }
+            document.querySelectorAll('.mega-menu-drawer').forEach(d => d.classList.remove('is-open'));
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.mega-menu-container') && !e.target.closest('.mega-menu-drawer')) {
+                document.querySelectorAll('.mega-menu-drawer').forEach(d => d.classList.remove('is-open'));
+            }
+        });
 
         // --- Lightbox Functions ---
         function openLightbox(imgSrc, title) {
@@ -3119,39 +3516,190 @@
             }
         }
 
-        // --- Testimonials Carousel Animation Controller ---
-        let currentTestimIndex = 0;
+        // --- Platform-Specific Separate Testimonials (IngeneroX vs IngeneroX360AI) ---
+        let activeTestimPlatform = 'ingenerox';
         let testimAutoTimer = null;
+        let currentTestimIndex = 0;
+
+        const testimData = {
+            'ingenerox': [
+                {
+                    partner: "Westlake",
+                    color: "#005A9C",
+                    rating: "5.0 / 5.0",
+                    quote: "BaseX mass-balance calculations combined with OptimaX real-time yield optimizer shortened our PVC grade transition off-spec window by 18%, recovering $1.8M in annual capacity.",
+                    name: "Craig Mitchell",
+                    role: "Director of Process Optimization, Westlake Chemical",
+                    tags: ["BaseX", "OptimaX"]
+                },
+                {
+                    partner: "Chevron",
+                    color: "#D62027",
+                    rating: "5.0 / 5.0",
+                    quote: "APCperformX audited our crude preheat train control loops, while TrendX multi-variable visualization gave our engineers instant clarity on loop variance, cutting furnace duty by $2.1M.",
+                    name: "Sarah Jenkins",
+                    role: "Lead APC & Optimization Specialist, Chevron Refining",
+                    tags: ["APCperformX", "TrendX"]
+                },
+                {
+                    partner: "Honeywell",
+                    color: "#EF4444",
+                    rating: "5.0 / 5.0",
+                    quote: "PENAI GenAI copilot integrated with AlertX logic gate alarm dispatch gives shift operators 20+ years of senior process engineering guidance directly within control room workflows.",
+                    name: "David K. Sterling",
+                    role: "CTO, Industrial Automation & Controls, Honeywell Integration",
+                    tags: ["PENAI", "AlertX"]
+                },
+                {
+                    partner: "HPCL",
+                    color: "#DC2626",
+                    rating: "5.0 / 5.0",
+                    quote: "DataHubX real-time OPC historian streaming paired with NotifyX automated dispatchers delivered an instant 3.4% reduction in overall refinery power consumption with zero latency.",
+                    name: "S. K. Verma",
+                    role: "Chief General Manager (Energy & Utilities), HPCL",
+                    tags: ["DataHubX", "NotifyX"]
+                },
+                {
+                    partner: "AspenTech",
+                    color: "#6366F1",
+                    rating: "5.0 / 5.0",
+                    quote: "HybridX thermodynamic digital twin integration with AlgoX custom Python runners gave our engineers high-fidelity virtual sensor predictions for unmetered stream flows.",
+                    name: "Dr. Vikram Patel",
+                    role: "VP of Asset Performance Management, AspenTech Alliance",
+                    tags: ["HybridX", "AlgoX"]
+                }
+            ],
+            'ingenerox360ai': [
+                {
+                    partner: "SABIC",
+                    color: "#00A2E8",
+                    rating: "5.0 / 5.0",
+                    quote: "Deploying OlefinsX360 across our pyrolysis furnace passes allowed us to maintain peak ethylene yield while reducing fuel gas consumption by 2.8%, saving an estimated $2.4M annually.",
+                    name: "Dr. Tariq Al-Hassan",
+                    role: "VP of Petrochemical Operations, SABIC",
+                    tags: ["OlefinsX360", "Ethylene Cracker"]
+                },
+                {
+                    partner: "Farabi",
+                    color: "#10B981",
+                    rating: "5.0 / 5.0",
+                    quote: "ReliabilityX360 predictive bearing & pump health monitors gave us a 14-day early warning on severe multi-stage pump vibration, averting an un-planned unit shutdown.",
+                    name: "Eng. Faisal Al-Zahrani",
+                    role: "General Manager, Plant Operations, Farabi Petrochemicals",
+                    tags: ["ReliabilityX360", "Asset Health"]
+                },
+                {
+                    partner: "LyondellBasell",
+                    color: "#818CF8",
+                    rating: "5.0 / 5.0",
+                    quote: "EO/EGX360 process suite enabled early detection of reactor tube hot-spots, extending active catalyst run length by 9 full months while protecting reactor selectivity.",
+                    name: "Dr. Aris Thorne",
+                    role: "VP of Global Manufacturing Technology, LyondellBasell",
+                    tags: ["EO/EGX360", "Ethylene Oxide"]
+                },
+                {
+                    partner: "Indorama",
+                    color: "#F59E0B",
+                    rating: "5.0 / 5.0",
+                    quote: "MTBEX360 coupled with PolymersX360 grade transition monitor gave our control room operators immediate insight into feed ratio drifts before off-spec limits were breached.",
+                    name: "Kittisak Prasert",
+                    role: "Director of Chemical Manufacturing, Indorama Ventures",
+                    tags: ["MTBEX360", "PolymersX360"]
+                },
+                {
+                    partner: "BPCL",
+                    color: "#EAB308",
+                    rating: "5.0 / 5.0",
+                    quote: "BoilerX360 and EnergyX360 MILP utility network optimization delivered an immediate $850K steam balance optimization across our multi-header power plant grid.",
+                    name: "Ramesh Iyer",
+                    role: "Executive Director, Process Technology, BPCL",
+                    tags: ["EnergyX360", "BoilerX360"]
+                }
+            ]
+        };
+
+        window.switchTestimonialPlatform = function(platform) {
+            activeTestimPlatform = platform;
+            currentTestimIndex = 0;
+
+            const btnIngenerox = document.getElementById('tab-btn-ingenerox');
+            const btnIngenerox360 = document.getElementById('tab-btn-ingenerox360ai');
+
+            if (btnIngenerox && btnIngenerox360) {
+                if (platform === 'ingenerox') {
+                    btnIngenerox.className = "px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all text-[#ef8121] bg-[#ef8121]/15 border border-[#ef8121]/40 shadow-[0_0_15px_rgba(239,129,33,0.25)] flex items-center cursor-pointer";
+                    btnIngenerox360.className = "px-5 py-2.5 text-xs font-bold rounded-xl transition-all text-zinc-400 hover:text-white hover:bg-zinc-900 border border-zinc-800 flex items-center cursor-pointer";
+                } else {
+                    btnIngenerox.className = "px-5 py-2.5 text-xs font-bold rounded-xl transition-all text-zinc-400 hover:text-white hover:bg-zinc-900 border border-zinc-800 flex items-center cursor-pointer";
+                    btnIngenerox360.className = "px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all text-[#ef8121] bg-[#ef8121]/15 border border-[#ef8121]/40 shadow-[0_0_15px_rgba(239,129,33,0.25)] flex items-center cursor-pointer";
+                }
+            }
+
+            renderTestimonialSlides();
+            resetTestimonialTimer();
+        };
+
+        function renderTestimonialSlides() {
+            const container = document.getElementById('testimonial-slider-container');
+            if (!container) return;
+            const items = testimData[activeTestimPlatform];
+            
+            container.innerHTML = '';
+            items.forEach((item, idx) => {
+                const slide = document.createElement('div');
+                slide.className = "testim-slide " + (idx === currentTestimIndex ? '' : 'hidden') + " transition-all duration-500 transform";
+                slide.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-1 text-amber-400 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <span class="ml-2 font-mono font-bold text-zinc-400">${item.rating} Rating</span>
+                        </div>
+                        <span class="px-3 py-1 font-black text-xs rounded-full border" style="color: ${item.color}; border-color: ${item.color}40; background-color: ${item.color}15;">${item.partner}</span>
+                    </div>
+                    <blockquote class="text-base sm:text-xl font-medium text-zinc-100 leading-relaxed italic mb-6">
+                        "${item.quote}"
+                    </blockquote>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-5 border-t border-zinc-800/80 gap-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-extrabold text-sm shadow-md" style="background: linear-gradient(135deg, ${item.color}, #090A0F);">
+                                ${item.name.split(' ').map(n=>n[0]).join('')}
+                            </div>
+                            <div>
+                                <h4 class="text-xs sm:text-sm font-bold text-white flex items-center">${item.name} <i class="fa-solid fa-circle-check text-[#ef8121] ml-1.5 text-[10px]" title="Verified Partner Deployment"></i></h4>
+                                <p class="text-[11px] text-zinc-400">${item.role}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${item.tags.map(t => `<span class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-300 rounded-lg"><i class="fa-solid fa-tag text-[#ef8121] mr-1"></i> ${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(slide);
+            });
+
+            // Update dot indicators
+            const dotsContainer = document.getElementById('testim-dots');
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                items.forEach((item, idx) => {
+                    const dot = document.createElement('button');
+                    dot.onclick = () => goToTestimonial(idx);
+                    dot.className = idx === currentTestimIndex ? "w-6 h-3 rounded-full bg-[#ef8121] transition-all cursor-pointer shadow-[0_0_8px_#ef8121]" : "w-3 h-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer";
+                    dot.title = item.partner;
+                    dotsContainer.appendChild(dot);
+                });
+            }
+        }
 
         function showTestimonialSlide(index) {
-            const slides = document.querySelectorAll('.testim-slide');
-            const dots = document.querySelectorAll('#testim-dots button');
-            if (!slides.length) return;
+            const items = testimData[activeTestimPlatform];
+            if (!items || !items.length) return;
 
-            if (index >= slides.length) currentTestimIndex = 0;
-            else if (index < 0) currentTestimIndex = slides.length - 1;
+            if (index >= items.length) currentTestimIndex = 0;
+            else if (index < 0) currentTestimIndex = items.length - 1;
             else currentTestimIndex = index;
 
-            slides.forEach((slide, idx) => {
-                if (idx === currentTestimIndex) {
-                    slide.classList.remove('hidden');
-                    slide.style.opacity = '0';
-                    slide.style.transform = 'translateY(8px)';
-                    void slide.offsetWidth;
-                    slide.style.opacity = '1';
-                    slide.style.transform = 'translateY(0)';
-                } else {
-                    slide.classList.add('hidden');
-                }
-            });
-
-            dots.forEach((dot, idx) => {
-                if (idx === currentTestimIndex) {
-                    dot.className = "w-6 h-3 rounded-full bg-[#ef8121] transition-all cursor-pointer shadow-[0_0_8px_#ef8121]";
-                } else {
-                    dot.className = "w-3 h-3 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all cursor-pointer";
-                }
-            });
+            renderTestimonialSlides();
         }
 
         window.changeTestimonial = function(dir) {
