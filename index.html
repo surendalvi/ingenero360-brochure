@@ -1791,7 +1791,12 @@ footer{border-top:1px solid #1B2B4B;background:#070D1A}
 </style>
 <style id="highlight-video-review-styles">
 #hero-corp-video{object-fit:cover;object-position:center center}
-@media(max-width:760px){#hero-corp-video{inset:0!important;top:0!important;width:100%!important;height:100%!important;max-height:none!important;transform:none!important;object-fit:cover!important;box-shadow:none!important}}
+#hero-film-link{position:absolute;z-index:12;right:clamp(20px,3vw,48px);bottom:clamp(26px,4vh,48px);display:flex;align-items:center;gap:14px;padding:11px 16px 11px 11px;border:1px solid #ffffff70;border-radius:999px;background:#07111ccc;box-shadow:0 12px 35px #0006;backdrop-filter:blur(16px);color:#fff;text-decoration:none;transition:background .25s ease,border-color .25s ease,transform .25s ease,box-shadow .25s ease}
+#hero-film-link:hover{background:#10223de8;border-color:#ff7a00;box-shadow:0 14px 42px #0009;transform:translateY(-3px)}
+#hero-film-link:focus-visible{outline:2px solid #ff9b3a;outline-offset:4px}
+.hero-film-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;background:#ff7a00;color:#06101e;font-size:13px;transition:transform .25s ease}.hero-film-icon i{margin-left:2px}#hero-film-link:hover .hero-film-icon{transform:scale(1.07)}
+.hero-film-copy{display:grid;gap:1px}.hero-film-copy strong{font:700 12px/1.3 'Poppins',sans-serif;letter-spacing:.01em}.hero-film-copy small{color:#aebcd0;font:500 10px/1.3 'Open Sans',sans-serif}.hero-film-arrow{margin-left:8px;color:#ff9a35;font-size:11px}
+@media(max-width:760px){#hero-corp-video{inset:0!important;top:0!important;width:100%!important;height:100%!important;max-height:none!important;transform:none!important;object-fit:cover!important;box-shadow:none!important}#hero-film-link{right:16px;bottom:66px;gap:9px;padding:7px 11px 7px 7px}.hero-film-icon{width:34px;height:34px}.hero-film-copy strong{font-size:11px}.hero-film-copy small{font-size:9px}.hero-film-arrow{margin-left:2px}}
 </style>
 <style id="review-navigation-polish">
 .home-impact-nav>div:last-child{gap:12px}
@@ -2453,6 +2458,12 @@ footer{border-top:1px solid #1B2B4B;background:#070D1A}
 
 
 
+
+            <a id="hero-film-link" href="https://youtu.be/TiQdI2FccGU" target="_blank" rel="noopener noreferrer" aria-label="Watch the full Ingenero film">
+              <span class="hero-film-icon" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
+              <span class="hero-film-copy"><strong>Watch the full film</strong><small>2 min 15 sec</small></span>
+              <i class="fa-solid fa-arrow-up-right-from-square hero-film-arrow" aria-hidden="true"></i>
+            </a>
 
             <!-- Scroll indicator prompt -->
 
